@@ -71,3 +71,8 @@ func (s *FilecenterServer) FileDetails(ctx context.Context, in *pb.FileDetailsRe
 	l := logic.NewFileDetailsLogic(ctx, s.svcCtx)
 	return l.FileDetails(in)
 }
+
+func (s *FilecenterServer) UploadPicture(ctx context.Context, in *pb.UploadPictureReq) (*pb.UploadPictureResp, error) {
+	l := logic.NewUploadPictureLogic(ctx, s.svcCtx)
+	return l.UploadPicture(in)
+}

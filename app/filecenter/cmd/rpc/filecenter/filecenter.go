@@ -22,6 +22,7 @@ type (
 	FileDetailsResp    = pb.FileDetailsResp
 	FileDownloadReq    = pb.FileDownloadReq
 	FileDownloadResp   = pb.FileDownloadResp
+	FileIn             = pb.FileIn
 	FileListReq        = pb.FileListReq
 	FileListResp       = pb.FileListResp
 	FileMoveReq        = pb.FileMoveReq
@@ -34,6 +35,8 @@ type (
 	FileShareSaveResp  = pb.FileShareSaveResp
 	FileUploadReq      = pb.FileUploadReq
 	FileUploadResp     = pb.FileUploadResp
+	UploadPictureReq   = pb.UploadPictureReq
+	UploadPictureResp  = pb.UploadPictureResp
 
 	Filecenter interface {
 		FileUpload(ctx context.Context, in *FileUploadReq, opts ...grpc.CallOption) (*FileUploadResp, error)
@@ -46,6 +49,7 @@ type (
 		FileShare(ctx context.Context, in *FileShareReq, opts ...grpc.CallOption) (*FileShareResp, error)
 		FileShareSave(ctx context.Context, in *FileShareSaveReq, opts ...grpc.CallOption) (*FileShareSaveResp, error)
 		FileDetails(ctx context.Context, in *FileDetailsReq, opts ...grpc.CallOption) (*FileDetailsResp, error)
+		UploadPicture(ctx context.Context, in *UploadPictureReq, opts ...grpc.CallOption) (*UploadPictureResp, error)
 	}
 
 	defaultFilecenter struct {
@@ -107,4 +111,9 @@ func (m *defaultFilecenter) FileShareSave(ctx context.Context, in *FileShareSave
 func (m *defaultFilecenter) FileDetails(ctx context.Context, in *FileDetailsReq, opts ...grpc.CallOption) (*FileDetailsResp, error) {
 	client := pb.NewFilecenterClient(m.cli.Conn())
 	return client.FileDetails(ctx, in, opts...)
+}
+
+func (m *defaultFilecenter) UploadPicture(ctx context.Context, in *UploadPictureReq, opts ...grpc.CallOption) (*UploadPictureResp, error) {
+	client := pb.NewFilecenterClient(m.cli.Conn())
+	return client.UploadPicture(ctx, in, opts...)
 }

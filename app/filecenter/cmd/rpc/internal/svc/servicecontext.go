@@ -14,11 +14,13 @@ import (
 )
 
 type ServiceContext struct {
-	Config      config.Config
-	RedisClient *redis.Redis
-	GormDB      *gorm.DB
-	Cache       *collection.Cache
-	FileModel   model.FileModel
+	Config        config.Config
+	RedisClient   *redis.Redis
+	GormDB        *gorm.DB
+	Cache         *collection.Cache
+	FileModel     model.FileModel
+	Md5Model      model.FileMd5Model
+	UserFileModel model.UserFileModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -53,9 +55,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		r.Pass = c.Redis.Pass
 	})
 	return &ServiceContext{
-		Config:      c,
-		RedisClient: Redis,
-		Cache:       cache,
-		FileModel:   model.NewFileModel(gormDB),
+		Config:        c,
+		RedisClient:   Redis,
+		Cache:         cache,
+		FileModel:     model.NewFileModel(gormDB),
+		Md5Model:      model.NewFileMd5Model(gormDB),
+		UserFileModel: model.NewUserFileModel(gormDB),
 	}
 }

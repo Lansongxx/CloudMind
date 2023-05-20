@@ -24,7 +24,9 @@ func NewFileMoveLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileMove
 }
 
 func (l *FileMoveLogic) FileMove(in *pb.FileMoveReq) (*pb.FileMoveResp, error) {
-	// todo: add your logic here and delete this line
+
+	// 手动开事务 在里面分别调用不同表格
+	l.svcCtx.FileModel.TxDelete(l.ctx, l.svcCtx.GormDB, in.Id)
 
 	return &pb.FileMoveResp{}, nil
 }

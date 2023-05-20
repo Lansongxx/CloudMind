@@ -29,6 +29,7 @@ const (
 	Filecenter_FileShare_FullMethodName      = "/pb.filecenter/FileShare"
 	Filecenter_FileShareSave_FullMethodName  = "/pb.filecenter/FileShareSave"
 	Filecenter_FileDetails_FullMethodName    = "/pb.filecenter/FileDetails"
+	Filecenter_UploadPicture_FullMethodName  = "/pb.filecenter/UploadPicture"
 )
 
 // FilecenterClient is the client API for Filecenter service.
@@ -45,6 +46,7 @@ type FilecenterClient interface {
 	FileShare(ctx context.Context, in *FileShareReq, opts ...grpc.CallOption) (*FileShareResp, error)
 	FileShareSave(ctx context.Context, in *FileShareSaveReq, opts ...grpc.CallOption) (*FileShareSaveResp, error)
 	FileDetails(ctx context.Context, in *FileDetailsReq, opts ...grpc.CallOption) (*FileDetailsResp, error)
+	UploadPicture(ctx context.Context, in *UploadPictureReq, opts ...grpc.CallOption) (*UploadPictureResp, error)
 }
 
 type filecenterClient struct {
@@ -145,6 +147,15 @@ func (c *filecenterClient) FileDetails(ctx context.Context, in *FileDetailsReq, 
 	return out, nil
 }
 
+func (c *filecenterClient) UploadPicture(ctx context.Context, in *UploadPictureReq, opts ...grpc.CallOption) (*UploadPictureResp, error) {
+	out := new(UploadPictureResp)
+	err := c.cc.Invoke(ctx, Filecenter_UploadPicture_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FilecenterServer is the server API for Filecenter service.
 // All implementations must embed UnimplementedFilecenterServer
 // for forward compatibility
@@ -159,6 +170,7 @@ type FilecenterServer interface {
 	FileShare(context.Context, *FileShareReq) (*FileShareResp, error)
 	FileShareSave(context.Context, *FileShareSaveReq) (*FileShareSaveResp, error)
 	FileDetails(context.Context, *FileDetailsReq) (*FileDetailsResp, error)
+	UploadPicture(context.Context, *UploadPictureReq) (*UploadPictureResp, error)
 	mustEmbedUnimplementedFilecenterServer()
 }
 
@@ -195,6 +207,9 @@ func (UnimplementedFilecenterServer) FileShareSave(context.Context, *FileShareSa
 }
 func (UnimplementedFilecenterServer) FileDetails(context.Context, *FileDetailsReq) (*FileDetailsResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FileDetails not implemented")
+}
+func (UnimplementedFilecenterServer) UploadPicture(context.Context, *UploadPictureReq) (*UploadPictureResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadPicture not implemented")
 }
 func (UnimplementedFilecenterServer) mustEmbedUnimplementedFilecenterServer() {}
 
@@ -389,6 +404,24 @@ func _Filecenter_FileDetails_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Filecenter_UploadPicture_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadPictureReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FilecenterServer).UploadPicture(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Filecenter_UploadPicture_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FilecenterServer).UploadPicture(ctx, req.(*UploadPictureReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Filecenter_ServiceDesc is the grpc.ServiceDesc for Filecenter service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -435,6 +468,10 @@ var Filecenter_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FileDetails",
 			Handler:    _Filecenter_FileDetails_Handler,
+		},
+		{
+			MethodName: "UploadPicture",
+			Handler:    _Filecenter_UploadPicture_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

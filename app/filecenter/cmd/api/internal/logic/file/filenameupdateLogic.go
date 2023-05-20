@@ -1,6 +1,8 @@
 package file
 
 import (
+	"CloudMind/app/filecenter/cmd/rpc/pb"
+	"CloudMind/common/errorx"
 	"context"
 
 	"CloudMind/app/filecenter/cmd/api/internal/svc"
@@ -23,8 +25,20 @@ func NewFilenameupdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 	}
 }
 
-func (l *FilenameupdateLogic) Filenameupdate(req *types.FileNameUpdateReq) (resp *types.FileNameUpdateResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *FilenameupdateLogic) Filenameupdate(req *types.FileNameUpdateReq) (*types.FileNameUpdateResp, error) {
 
-	return
+	resp, err := l.svcCtx.FileRpc.FileNameUpdate(l.ctx, &pb.FileNameUpdateReq{
+		Id:   req.Id,
+		Name: req.Name,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.Error != "" {
+		return nil, errorx.NewDefaultError(resp.Error)
+	}
+
+	return nil, nil
 }

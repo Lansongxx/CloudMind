@@ -1,6 +1,8 @@
 package file
 
 import (
+	"CloudMind/app/filecenter/cmd/rpc/pb"
+	"CloudMind/common/errorx"
 	"context"
 
 	"CloudMind/app/filecenter/cmd/api/internal/svc"
@@ -23,8 +25,21 @@ func NewFileuploadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fileup
 	}
 }
 
-func (l *FileuploadLogic) Fileupload(req *types.FileUploadReq) (resp *types.FileUploadResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *FileuploadLogic) Fileupload(req *types.FileUploadReq) (*types.FileUploadResp, error) {
 
-	return
+	resp, err := l.svcCtx.FileRpc.FileUpload(l.ctx, &pb.FileUploadReq{
+		Name:       req.Name,
+		Type:       req.Type,
+		SourcePath: req.SourcePath,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.Error != "" {
+		return nil, errorx.NewDefaultError(resp.Error)
+	}
+
+	return nil, nil
 }

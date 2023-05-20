@@ -39,5 +39,4 @@ func (l *FiledetailsLogic) Filedetails(req *types.FileDetailsReq) (resp *types.F
 	_ = copier.Copy(&filedetails, x)
 
 	return &filedetails, nil
-	return
 }

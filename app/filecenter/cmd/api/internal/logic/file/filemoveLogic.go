@@ -1,6 +1,8 @@
 package file
 
 import (
+	"CloudMind/app/filecenter/cmd/rpc/pb"
+	"CloudMind/common/errorx"
 	"context"
 
 	"CloudMind/app/filecenter/cmd/api/internal/svc"
@@ -23,8 +25,21 @@ func NewFilemoveLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Filemove
 	}
 }
 
-func (l *FilemoveLogic) Filemove(req *types.FileMoveReq) (resp *types.FileMoveResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *FilemoveLogic) Filemove(req *types.FileMoveReq) (*types.FileMoveResp, error) {
 
-	return
+	resp, err := l.svcCtx.FileRpc.FileMove(l.ctx, &pb.FileMoveReq{
+		LastParentId: req.LastParentId,
+		PreParentId:  req.PreParentId,
+		Id:           req.Id,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.Error != "" {
+		return nil, errorx.NewDefaultError(resp.Error)
+	}
+
+	return nil, nil
 }

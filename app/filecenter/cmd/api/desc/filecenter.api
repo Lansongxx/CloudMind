@@ -11,7 +11,7 @@ service filecenter{
 	@doc "文件上传"
 	@handler fileupload
 	post /file/fileUpload (FileUploadReq) returns (FileUploadResp)
-	
+
 	@doc "文件下载"
 	@handler filedownload
 	get /file/fileDownload (FileDownloadReq) returns (FileDownloadResp)
@@ -34,7 +34,7 @@ service filecenter{
 	
 	@doc "文件移动"
 	@handler filemove
-	put /file/fileMove (FileMoveReq) returns (FileMoveResp)
+	post /file/fileMove (FileMoveReq) returns (FileMoveResp)
 	
 	@doc "文件分享"
 	@handler fileshare

@@ -1,6 +1,8 @@
 package file
 
 import (
+	"CloudMind/app/filecenter/cmd/rpc/pb"
+	"CloudMind/common/errorx"
 	"context"
 
 	"CloudMind/app/filecenter/cmd/api/internal/svc"
@@ -23,8 +25,26 @@ func NewFiledeletionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *File
 	}
 }
 
-func (l *FiledeletionLogic) Filedeletion(req *types.FileDeletionReq) (resp *types.FileDeletionResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *FiledeletionLogic) Filedeletion(req *types.FileDeletionReq) (*types.FileDeletionResp, error) {
 
-	return
+	var ids, parentids []int64
+	for _, prefix := range req.Delist {
+		parentids = append(parentids, prefix.ParentId)
+		ids = append(ids, prefix.Id)
+	}
+
+	resp, err := l.svcCtx.FileRpc.FileDeletion(l.ctx, &pb.FileDeletionReq{
+		ParentId: parentids,
+		Id:       ids,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.Error != "" {
+		return nil, errorx.NewDefaultError(resp.Error)
+	}
+
+	return nil, nil
 }

@@ -25,3 +25,9 @@ Redis:
 Cache:
   - Host: redis:6379
     Pass: G62m50oigInC30sf
+
+Oss:
+  Endpoint: "oss-cn-shenzhen.aliyuncs.com"
+  AccessKeyID: "LTAI5tRFdf2Gogf5aYZHvqAb"
+  AccessKeySecret: "pj2Xq5OqrCVJPC0bwJZ51pNIM5zp7q"
+  Bucket: "cloudmind0"
