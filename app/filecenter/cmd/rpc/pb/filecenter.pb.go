@@ -404,7 +404,8 @@ type UploadPictureResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Error string `protobuf:"bytes,1,opt,name=Error,proto3" json:"Error,omitempty"`
+	URL   string `protobuf:"bytes,1,opt,name=URL,proto3" json:"URL,omitempty"`
+	Error string `protobuf:"bytes,2,opt,name=Error,proto3" json:"Error,omitempty"`
 }
 
 func (x *UploadPictureResp) Reset() {
@@ -437,6 +438,13 @@ func (x *UploadPictureResp) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UploadPictureResp.ProtoReflect.Descriptor instead.
 func (*UploadPictureResp) Descriptor() ([]byte, []int) {
 	return file_filecenter_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *UploadPictureResp) GetURL() string {
+	if x != nil {
+		return x.URL
+	}
+	return ""
 }
 
 func (x *UploadPictureResp) GetError() string {
@@ -813,8 +821,9 @@ type FileCreateReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ParentId int64  `protobuf:"varint,1,opt,name=ParentId,proto3" json:"ParentId,omitempty"`
-	Name     string `protobuf:"bytes,2,opt,name=Name,proto3" json:"Name,omitempty"`
+	UserId   int64  `protobuf:"varint,1,opt,name=UserId,proto3" json:"UserId,omitempty"`
+	ParentId int64  `protobuf:"varint,2,opt,name=ParentId,proto3" json:"ParentId,omitempty"`
+	Name     string `protobuf:"bytes,3,opt,name=Name,proto3" json:"Name,omitempty"`
 }
 
 func (x *FileCreateReq) Reset() {
@@ -847,6 +856,13 @@ func (x *FileCreateReq) ProtoReflect() protoreflect.Message {
 // Deprecated: Use FileCreateReq.ProtoReflect.Descriptor instead.
 func (*FileCreateReq) Descriptor() ([]byte, []int) {
 	return file_filecenter_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *FileCreateReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
 }
 
 func (x *FileCreateReq) GetParentId() int64 {
@@ -910,19 +926,81 @@ func (x *FileCreateResp) GetError() string {
 	return ""
 }
 
+type FilePrefix struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ParentId int64  `protobuf:"varint,1,opt,name=ParentId,proto3" json:"ParentId,omitempty"`
+	Id       int64  `protobuf:"varint,2,opt,name=Id,proto3" json:"Id,omitempty"`
+	Type     string `protobuf:"bytes,3,opt,name=Type,proto3" json:"Type,omitempty"`
+}
+
+func (x *FilePrefix) Reset() {
+	*x = FilePrefix{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_filecenter_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *FilePrefix) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FilePrefix) ProtoMessage() {}
+
+func (x *FilePrefix) ProtoReflect() protoreflect.Message {
+	mi := &file_filecenter_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FilePrefix.ProtoReflect.Descriptor instead.
+func (*FilePrefix) Descriptor() ([]byte, []int) {
+	return file_filecenter_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *FilePrefix) GetParentId() int64 {
+	if x != nil {
+		return x.ParentId
+	}
+	return 0
+}
+
+func (x *FilePrefix) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *FilePrefix) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
 type FileDeletionReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ParentId []int64 `protobuf:"varint,1,rep,packed,name=ParentId,proto3" json:"ParentId,omitempty"`
-	Id       []int64 `protobuf:"varint,2,rep,packed,name=Id,proto3" json:"Id,omitempty"`
+	List []int64 `protobuf:"varint,1,rep,packed,name=List,proto3" json:"List,omitempty"`
 }
 
 func (x *FileDeletionReq) Reset() {
 	*x = FileDeletionReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_filecenter_proto_msgTypes[14]
+		mi := &file_filecenter_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -935,7 +1013,7 @@ func (x *FileDeletionReq) String() string {
 func (*FileDeletionReq) ProtoMessage() {}
 
 func (x *FileDeletionReq) ProtoReflect() protoreflect.Message {
-	mi := &file_filecenter_proto_msgTypes[14]
+	mi := &file_filecenter_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -948,19 +1026,12 @@ func (x *FileDeletionReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileDeletionReq.ProtoReflect.Descriptor instead.
 func (*FileDeletionReq) Descriptor() ([]byte, []int) {
-	return file_filecenter_proto_rawDescGZIP(), []int{14}
+	return file_filecenter_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *FileDeletionReq) GetParentId() []int64 {
+func (x *FileDeletionReq) GetList() []int64 {
 	if x != nil {
-		return x.ParentId
-	}
-	return nil
-}
-
-func (x *FileDeletionReq) GetId() []int64 {
-	if x != nil {
-		return x.Id
+		return x.List
 	}
 	return nil
 }
@@ -976,7 +1047,7 @@ type FileDeletionResp struct {
 func (x *FileDeletionResp) Reset() {
 	*x = FileDeletionResp{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_filecenter_proto_msgTypes[15]
+		mi := &file_filecenter_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -989,7 +1060,7 @@ func (x *FileDeletionResp) String() string {
 func (*FileDeletionResp) ProtoMessage() {}
 
 func (x *FileDeletionResp) ProtoReflect() protoreflect.Message {
-	mi := &file_filecenter_proto_msgTypes[15]
+	mi := &file_filecenter_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1002,7 +1073,7 @@ func (x *FileDeletionResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileDeletionResp.ProtoReflect.Descriptor instead.
 func (*FileDeletionResp) Descriptor() ([]byte, []int) {
-	return file_filecenter_proto_rawDescGZIP(), []int{15}
+	return file_filecenter_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *FileDeletionResp) GetError() string {
@@ -1025,7 +1096,7 @@ type FileMoveReq struct {
 func (x *FileMoveReq) Reset() {
 	*x = FileMoveReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_filecenter_proto_msgTypes[16]
+		mi := &file_filecenter_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1038,7 +1109,7 @@ func (x *FileMoveReq) String() string {
 func (*FileMoveReq) ProtoMessage() {}
 
 func (x *FileMoveReq) ProtoReflect() protoreflect.Message {
-	mi := &file_filecenter_proto_msgTypes[16]
+	mi := &file_filecenter_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1051,7 +1122,7 @@ func (x *FileMoveReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileMoveReq.ProtoReflect.Descriptor instead.
 func (*FileMoveReq) Descriptor() ([]byte, []int) {
-	return file_filecenter_proto_rawDescGZIP(), []int{16}
+	return file_filecenter_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *FileMoveReq) GetLastParentId() int64 {
@@ -1086,7 +1157,7 @@ type FileMoveResp struct {
 func (x *FileMoveResp) Reset() {
 	*x = FileMoveResp{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_filecenter_proto_msgTypes[17]
+		mi := &file_filecenter_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1099,7 +1170,7 @@ func (x *FileMoveResp) String() string {
 func (*FileMoveResp) ProtoMessage() {}
 
 func (x *FileMoveResp) ProtoReflect() protoreflect.Message {
-	mi := &file_filecenter_proto_msgTypes[17]
+	mi := &file_filecenter_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1112,7 +1183,7 @@ func (x *FileMoveResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileMoveResp.ProtoReflect.Descriptor instead.
 func (*FileMoveResp) Descriptor() ([]byte, []int) {
-	return file_filecenter_proto_rawDescGZIP(), []int{17}
+	return file_filecenter_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *FileMoveResp) GetError() string {
@@ -1133,7 +1204,7 @@ type FileShareReq struct {
 func (x *FileShareReq) Reset() {
 	*x = FileShareReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_filecenter_proto_msgTypes[18]
+		mi := &file_filecenter_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1146,7 +1217,7 @@ func (x *FileShareReq) String() string {
 func (*FileShareReq) ProtoMessage() {}
 
 func (x *FileShareReq) ProtoReflect() protoreflect.Message {
-	mi := &file_filecenter_proto_msgTypes[18]
+	mi := &file_filecenter_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1159,7 +1230,7 @@ func (x *FileShareReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileShareReq.ProtoReflect.Descriptor instead.
 func (*FileShareReq) Descriptor() ([]byte, []int) {
-	return file_filecenter_proto_rawDescGZIP(), []int{18}
+	return file_filecenter_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *FileShareReq) GetId() int64 {
@@ -1181,7 +1252,7 @@ type FileShareResp struct {
 func (x *FileShareResp) Reset() {
 	*x = FileShareResp{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_filecenter_proto_msgTypes[19]
+		mi := &file_filecenter_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1194,7 +1265,7 @@ func (x *FileShareResp) String() string {
 func (*FileShareResp) ProtoMessage() {}
 
 func (x *FileShareResp) ProtoReflect() protoreflect.Message {
-	mi := &file_filecenter_proto_msgTypes[19]
+	mi := &file_filecenter_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1207,7 +1278,7 @@ func (x *FileShareResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileShareResp.ProtoReflect.Descriptor instead.
 func (*FileShareResp) Descriptor() ([]byte, []int) {
-	return file_filecenter_proto_rawDescGZIP(), []int{19}
+	return file_filecenter_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *FileShareResp) GetShareLink() string {
@@ -1237,7 +1308,7 @@ type FileShareSaveReq struct {
 func (x *FileShareSaveReq) Reset() {
 	*x = FileShareSaveReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_filecenter_proto_msgTypes[20]
+		mi := &file_filecenter_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1250,7 +1321,7 @@ func (x *FileShareSaveReq) String() string {
 func (*FileShareSaveReq) ProtoMessage() {}
 
 func (x *FileShareSaveReq) ProtoReflect() protoreflect.Message {
-	mi := &file_filecenter_proto_msgTypes[20]
+	mi := &file_filecenter_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1263,7 +1334,7 @@ func (x *FileShareSaveReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileShareSaveReq.ProtoReflect.Descriptor instead.
 func (*FileShareSaveReq) Descriptor() ([]byte, []int) {
-	return file_filecenter_proto_rawDescGZIP(), []int{20}
+	return file_filecenter_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *FileShareSaveReq) GetParentId() int64 {
@@ -1299,7 +1370,7 @@ type FileShareSaveResp struct {
 func (x *FileShareSaveResp) Reset() {
 	*x = FileShareSaveResp{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_filecenter_proto_msgTypes[21]
+		mi := &file_filecenter_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1312,7 +1383,7 @@ func (x *FileShareSaveResp) String() string {
 func (*FileShareSaveResp) ProtoMessage() {}
 
 func (x *FileShareSaveResp) ProtoReflect() protoreflect.Message {
-	mi := &file_filecenter_proto_msgTypes[21]
+	mi := &file_filecenter_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1325,7 +1396,7 @@ func (x *FileShareSaveResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileShareSaveResp.ProtoReflect.Descriptor instead.
 func (*FileShareSaveResp) Descriptor() ([]byte, []int) {
-	return file_filecenter_proto_rawDescGZIP(), []int{21}
+	return file_filecenter_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *FileShareSaveResp) GetId() int64 {
@@ -1353,7 +1424,7 @@ type FileDetailsReq struct {
 func (x *FileDetailsReq) Reset() {
 	*x = FileDetailsReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_filecenter_proto_msgTypes[22]
+		mi := &file_filecenter_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1366,7 +1437,7 @@ func (x *FileDetailsReq) String() string {
 func (*FileDetailsReq) ProtoMessage() {}
 
 func (x *FileDetailsReq) ProtoReflect() protoreflect.Message {
-	mi := &file_filecenter_proto_msgTypes[22]
+	mi := &file_filecenter_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1379,7 +1450,7 @@ func (x *FileDetailsReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileDetailsReq.ProtoReflect.Descriptor instead.
 func (*FileDetailsReq) Descriptor() ([]byte, []int) {
-	return file_filecenter_proto_rawDescGZIP(), []int{22}
+	return file_filecenter_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *FileDetailsReq) GetId() int64 {
@@ -1405,7 +1476,7 @@ type FileDetailsResp struct {
 func (x *FileDetailsResp) Reset() {
 	*x = FileDetailsResp{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_filecenter_proto_msgTypes[23]
+		mi := &file_filecenter_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1418,7 +1489,7 @@ func (x *FileDetailsResp) String() string {
 func (*FileDetailsResp) ProtoMessage() {}
 
 func (x *FileDetailsResp) ProtoReflect() protoreflect.Message {
-	mi := &file_filecenter_proto_msgTypes[23]
+	mi := &file_filecenter_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1431,7 +1502,7 @@ func (x *FileDetailsResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileDetailsResp.ProtoReflect.Descriptor instead.
 func (*FileDetailsResp) Descriptor() ([]byte, []int) {
-	return file_filecenter_proto_rawDescGZIP(), []int{23}
+	return file_filecenter_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *FileDetailsResp) GetName() string {
@@ -1519,47 +1590,53 @@ var file_filecenter_proto_rawDesc = []byte{
 	0x09, 0x52, 0x03, 0x4d, 0x64, 0x35, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01,
 	0x28, 0x03, 0x52, 0x02, 0x49, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x50, 0x69, 0x63, 0x74, 0x75, 0x72,
 	0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x07, 0x50, 0x69, 0x63, 0x74, 0x75, 0x72, 0x65,
-	0x22, 0x29, 0x0a, 0x11, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x50, 0x69, 0x63, 0x74, 0x75, 0x72,
-	0x65, 0x52, 0x65, 0x73, 0x70, 0x12, 0x14, 0x0a, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x49, 0x0a, 0x0f, 0x46,
-	0x69, 0x6c, 0x65, 0x44, 0x6f, 0x77, 0x6e, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x65, 0x71, 0x12, 0x0e,
-	0x0a, 0x02, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x49, 0x64, 0x12, 0x12,
-	0x0a, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x4e, 0x61,
-	0x6d, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x54, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x04, 0x54, 0x79, 0x70, 0x65, 0x22, 0x3c, 0x0a, 0x10, 0x46, 0x69, 0x6c, 0x65, 0x44, 0x6f,
-	0x77, 0x6e, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x65, 0x73, 0x70, 0x12, 0x12, 0x0a, 0x04, 0x66, 0x6c,
-	0x61, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x66, 0x6c, 0x61, 0x67, 0x12, 0x14,
-	0x0a, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x45,
-	0x72, 0x72, 0x6f, 0x72, 0x22, 0x6d, 0x0a, 0x0b, 0x46, 0x69, 0x6c, 0x65, 0x4c, 0x69, 0x73, 0x74,
-	0x52, 0x65, 0x71, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52,
-	0x02, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x50, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x03, 0x52, 0x04, 0x50, 0x61, 0x67, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x53, 0x69, 0x7a, 0x65, 0x18,
-	0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x04, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x46,
-	0x69, 0x65, 0x6c, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x46, 0x69, 0x65, 0x6c,
-	0x64, 0x12, 0x10, 0x0a, 0x03, 0x41, 0x53, 0x43, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x03,
-	0x41, 0x53, 0x43, 0x22, 0x5b, 0x0a, 0x0c, 0x46, 0x69, 0x6c, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x52,
-	0x65, 0x73, 0x70, 0x12, 0x1f, 0x0a, 0x04, 0x4c, 0x69, 0x73, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28,
-	0x0b, 0x32, 0x0b, 0x2e, 0x70, 0x62, 0x2e, 0x46, 0x69, 0x6c, 0x65, 0x5f, 0x69, 0x6e, 0x52, 0x04,
-	0x4c, 0x69, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x03, 0x52, 0x05, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x45, 0x72,
-	0x72, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72,
-	0x22, 0x37, 0x0a, 0x11, 0x46, 0x69, 0x6c, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x55, 0x70, 0x64, 0x61,
-	0x74, 0x65, 0x52, 0x65, 0x71, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x03, 0x52, 0x02, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x2a, 0x0a, 0x12, 0x46, 0x69, 0x6c,
-	0x65, 0x4e, 0x61, 0x6d, 0x65, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x12,
-	0x14, 0x0a, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
-	0x45, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x3f, 0x0a, 0x0d, 0x46, 0x69, 0x6c, 0x65, 0x43, 0x72, 0x65,
-	0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x12, 0x1a, 0x0a, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74,
+	0x22, 0x3b, 0x0a, 0x11, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x50, 0x69, 0x63, 0x74, 0x75, 0x72,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x12, 0x10, 0x0a, 0x03, 0x55, 0x52, 0x4c, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x03, 0x55, 0x52, 0x4c, 0x12, 0x14, 0x0a, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x49, 0x0a,
+	0x0f, 0x46, 0x69, 0x6c, 0x65, 0x44, 0x6f, 0x77, 0x6e, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x65, 0x71,
+	0x12, 0x0e, 0x0a, 0x02, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x49, 0x64,
+	0x12, 0x12, 0x0a, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
+	0x4e, 0x61, 0x6d, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x54, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x54, 0x79, 0x70, 0x65, 0x22, 0x3c, 0x0a, 0x10, 0x46, 0x69, 0x6c, 0x65,
+	0x44, 0x6f, 0x77, 0x6e, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x65, 0x73, 0x70, 0x12, 0x12, 0x0a, 0x04,
+	0x66, 0x6c, 0x61, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x66, 0x6c, 0x61, 0x67,
+	0x12, 0x14, 0x0a, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x6d, 0x0a, 0x0b, 0x46, 0x69, 0x6c, 0x65, 0x4c, 0x69,
+	0x73, 0x74, 0x52, 0x65, 0x71, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x03, 0x52, 0x02, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x50, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x03, 0x52, 0x04, 0x50, 0x61, 0x67, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x53, 0x69, 0x7a,
+	0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x04, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x14, 0x0a,
+	0x05, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x46, 0x69,
+	0x65, 0x6c, 0x64, 0x12, 0x10, 0x0a, 0x03, 0x41, 0x53, 0x43, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08,
+	0x52, 0x03, 0x41, 0x53, 0x43, 0x22, 0x5b, 0x0a, 0x0c, 0x46, 0x69, 0x6c, 0x65, 0x4c, 0x69, 0x73,
+	0x74, 0x52, 0x65, 0x73, 0x70, 0x12, 0x1f, 0x0a, 0x04, 0x4c, 0x69, 0x73, 0x74, 0x18, 0x01, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x0b, 0x2e, 0x70, 0x62, 0x2e, 0x46, 0x69, 0x6c, 0x65, 0x5f, 0x69, 0x6e,
+	0x52, 0x04, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x14, 0x0a, 0x05,
+	0x45, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x45, 0x72, 0x72,
+	0x6f, 0x72, 0x22, 0x37, 0x0a, 0x11, 0x46, 0x69, 0x6c, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x03, 0x52, 0x02, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x2a, 0x0a, 0x12, 0x46,
+	0x69, 0x6c, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73,
+	0x70, 0x12, 0x14, 0x0a, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x57, 0x0a, 0x0d, 0x46, 0x69, 0x6c, 0x65, 0x43,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x12, 0x16, 0x0a, 0x06, 0x55, 0x73, 0x65, 0x72,
+	0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x55, 0x73, 0x65, 0x72, 0x49, 0x64,
+	0x12, 0x1a, 0x0a, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x03, 0x52, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04,
+	0x4e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x4e, 0x61, 0x6d, 0x65,
+	0x22, 0x26, 0x0a, 0x0e, 0x46, 0x69, 0x6c, 0x65, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65,
+	0x73, 0x70, 0x12, 0x14, 0x0a, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x4c, 0x0a, 0x0a, 0x46, 0x69, 0x6c, 0x65,
+	0x50, 0x72, 0x65, 0x66, 0x69, 0x78, 0x12, 0x1a, 0x0a, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74,
 	0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74,
-	0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x26, 0x0a, 0x0e, 0x46, 0x69, 0x6c, 0x65, 0x43, 0x72,
-	0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x12, 0x14, 0x0a, 0x05, 0x45, 0x72, 0x72, 0x6f,
-	0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x3d,
-	0x0a, 0x0f, 0x46, 0x69, 0x6c, 0x65, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65,
-	0x71, 0x12, 0x1a, 0x0a, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x49, 0x64, 0x18, 0x01, 0x20,
-	0x03, 0x28, 0x03, 0x52, 0x08, 0x50, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x49, 0x64, 0x12, 0x0e, 0x0a,
-	0x02, 0x49, 0x64, 0x18, 0x02, 0x20, 0x03, 0x28, 0x03, 0x52, 0x02, 0x49, 0x64, 0x22, 0x28, 0x0a,
+	0x49, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02,
+	0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x54, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x04, 0x54, 0x79, 0x70, 0x65, 0x22, 0x25, 0x0a, 0x0f, 0x46, 0x69, 0x6c, 0x65, 0x44, 0x65,
+	0x6c, 0x65, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x12, 0x12, 0x0a, 0x04, 0x4c, 0x69, 0x73,
+	0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x03, 0x52, 0x04, 0x4c, 0x69, 0x73, 0x74, 0x22, 0x28, 0x0a,
 	0x10, 0x46, 0x69, 0x6c, 0x65, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73,
 	0x70, 0x12, 0x14, 0x0a, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
 	0x52, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x63, 0x0a, 0x0b, 0x46, 0x69, 0x6c, 0x65, 0x4d,
@@ -1653,7 +1730,7 @@ func file_filecenter_proto_rawDescGZIP() []byte {
 	return file_filecenter_proto_rawDescData
 }
 
-var file_filecenter_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_filecenter_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
 var file_filecenter_proto_goTypes = []interface{}{
 	(*File)(nil),               // 0: pb.File
 	(*FileIn)(nil),             // 1: pb.File_in
@@ -1669,16 +1746,17 @@ var file_filecenter_proto_goTypes = []interface{}{
 	(*FileNameUpdateResp)(nil), // 11: pb.FileNameUpdateResp
 	(*FileCreateReq)(nil),      // 12: pb.FileCreateReq
 	(*FileCreateResp)(nil),     // 13: pb.FileCreateResp
-	(*FileDeletionReq)(nil),    // 14: pb.FileDeletionReq
-	(*FileDeletionResp)(nil),   // 15: pb.FileDeletionResp
-	(*FileMoveReq)(nil),        // 16: pb.FileMoveReq
-	(*FileMoveResp)(nil),       // 17: pb.FileMoveResp
-	(*FileShareReq)(nil),       // 18: pb.FileShareReq
-	(*FileShareResp)(nil),      // 19: pb.FileShareResp
-	(*FileShareSaveReq)(nil),   // 20: pb.FileShareSaveReq
-	(*FileShareSaveResp)(nil),  // 21: pb.FileShareSaveResp
-	(*FileDetailsReq)(nil),     // 22: pb.FileDetailsReq
-	(*FileDetailsResp)(nil),    // 23: pb.FileDetailsResp
+	(*FilePrefix)(nil),         // 14: pb.FilePrefix
+	(*FileDeletionReq)(nil),    // 15: pb.FileDeletionReq
+	(*FileDeletionResp)(nil),   // 16: pb.FileDeletionResp
+	(*FileMoveReq)(nil),        // 17: pb.FileMoveReq
+	(*FileMoveResp)(nil),       // 18: pb.FileMoveResp
+	(*FileShareReq)(nil),       // 19: pb.FileShareReq
+	(*FileShareResp)(nil),      // 20: pb.FileShareResp
+	(*FileShareSaveReq)(nil),   // 21: pb.FileShareSaveReq
+	(*FileShareSaveResp)(nil),  // 22: pb.FileShareSaveResp
+	(*FileDetailsReq)(nil),     // 23: pb.FileDetailsReq
+	(*FileDetailsResp)(nil),    // 24: pb.FileDetailsResp
 }
 var file_filecenter_proto_depIdxs = []int32{
 	1,  // 0: pb.FileListResp.List:type_name -> pb.File_in
@@ -1687,22 +1765,22 @@ var file_filecenter_proto_depIdxs = []int32{
 	8,  // 3: pb.filecenter.FileList:input_type -> pb.FileListReq
 	10, // 4: pb.filecenter.FileNameUpdate:input_type -> pb.FileNameUpdateReq
 	12, // 5: pb.filecenter.FileCreate:input_type -> pb.FileCreateReq
-	14, // 6: pb.filecenter.FileDeletion:input_type -> pb.FileDeletionReq
-	16, // 7: pb.filecenter.FileMove:input_type -> pb.FileMoveReq
-	18, // 8: pb.filecenter.FileShare:input_type -> pb.FileShareReq
-	20, // 9: pb.filecenter.FileShareSave:input_type -> pb.FileShareSaveReq
-	22, // 10: pb.filecenter.FileDetails:input_type -> pb.FileDetailsReq
+	15, // 6: pb.filecenter.FileDeletion:input_type -> pb.FileDeletionReq
+	17, // 7: pb.filecenter.FileMove:input_type -> pb.FileMoveReq
+	19, // 8: pb.filecenter.FileShare:input_type -> pb.FileShareReq
+	21, // 9: pb.filecenter.FileShareSave:input_type -> pb.FileShareSaveReq
+	23, // 10: pb.filecenter.FileDetails:input_type -> pb.FileDetailsReq
 	4,  // 11: pb.filecenter.UploadPicture:input_type -> pb.UploadPictureReq
 	3,  // 12: pb.filecenter.FileUpload:output_type -> pb.FileUploadResp
 	7,  // 13: pb.filecenter.FileDownload:output_type -> pb.FileDownloadResp
 	9,  // 14: pb.filecenter.FileList:output_type -> pb.FileListResp
 	11, // 15: pb.filecenter.FileNameUpdate:output_type -> pb.FileNameUpdateResp
 	13, // 16: pb.filecenter.FileCreate:output_type -> pb.FileCreateResp
-	15, // 17: pb.filecenter.FileDeletion:output_type -> pb.FileDeletionResp
-	17, // 18: pb.filecenter.FileMove:output_type -> pb.FileMoveResp
-	19, // 19: pb.filecenter.FileShare:output_type -> pb.FileShareResp
-	21, // 20: pb.filecenter.FileShareSave:output_type -> pb.FileShareSaveResp
-	23, // 21: pb.filecenter.FileDetails:output_type -> pb.FileDetailsResp
+	16, // 17: pb.filecenter.FileDeletion:output_type -> pb.FileDeletionResp
+	18, // 18: pb.filecenter.FileMove:output_type -> pb.FileMoveResp
+	20, // 19: pb.filecenter.FileShare:output_type -> pb.FileShareResp
+	22, // 20: pb.filecenter.FileShareSave:output_type -> pb.FileShareSaveResp
+	24, // 21: pb.filecenter.FileDetails:output_type -> pb.FileDetailsResp
 	5,  // 22: pb.filecenter.UploadPicture:output_type -> pb.UploadPictureResp
 	12, // [12:23] is the sub-list for method output_type
 	1,  // [1:12] is the sub-list for method input_type
@@ -1886,7 +1964,7 @@ func file_filecenter_proto_init() {
 			}
 		}
 		file_filecenter_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FileDeletionReq); i {
+			switch v := v.(*FilePrefix); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1898,7 +1976,7 @@ func file_filecenter_proto_init() {
 			}
 		}
 		file_filecenter_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FileDeletionResp); i {
+			switch v := v.(*FileDeletionReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1910,7 +1988,7 @@ func file_filecenter_proto_init() {
 			}
 		}
 		file_filecenter_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FileMoveReq); i {
+			switch v := v.(*FileDeletionResp); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1922,7 +2000,7 @@ func file_filecenter_proto_init() {
 			}
 		}
 		file_filecenter_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FileMoveResp); i {
+			switch v := v.(*FileMoveReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1934,7 +2012,7 @@ func file_filecenter_proto_init() {
 			}
 		}
 		file_filecenter_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FileShareReq); i {
+			switch v := v.(*FileMoveResp); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1946,7 +2024,7 @@ func file_filecenter_proto_init() {
 			}
 		}
 		file_filecenter_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FileShareResp); i {
+			switch v := v.(*FileShareReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1958,7 +2036,7 @@ func file_filecenter_proto_init() {
 			}
 		}
 		file_filecenter_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FileShareSaveReq); i {
+			switch v := v.(*FileShareResp); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1970,7 +2048,7 @@ func file_filecenter_proto_init() {
 			}
 		}
 		file_filecenter_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FileShareSaveResp); i {
+			switch v := v.(*FileShareSaveReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1982,7 +2060,7 @@ func file_filecenter_proto_init() {
 			}
 		}
 		file_filecenter_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FileDetailsReq); i {
+			switch v := v.(*FileShareSaveResp); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1994,6 +2072,18 @@ func file_filecenter_proto_init() {
 			}
 		}
 		file_filecenter_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*FileDetailsReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_filecenter_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*FileDetailsResp); i {
 			case 0:
 				return &v.state
@@ -2012,7 +2102,7 @@ func file_filecenter_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_filecenter_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   24,
+			NumMessages:   25,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

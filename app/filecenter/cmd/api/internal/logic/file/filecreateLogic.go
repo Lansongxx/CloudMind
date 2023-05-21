@@ -27,6 +27,7 @@ func NewFilecreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Filecr
 func (l *FilecreateLogic) Filecreate(req *types.FileCreateReq) (*types.FileCreateResp, error) {
 
 	resp, err := l.svcCtx.FileRpc.FileCreate(l.ctx, &filecenter.FileCreateReq{
+		UserId:   req.UserId,
 		ParentId: req.ParentId,
 		Name:     req.Name,
 	})

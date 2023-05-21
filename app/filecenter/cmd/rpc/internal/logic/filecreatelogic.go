@@ -25,7 +25,7 @@ func NewFileCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileCr
 
 func (l *FileCreateLogic) FileCreate(in *pb.FileCreateReq) (*pb.FileCreateResp, error) {
 
-	_, err := l.svcCtx.FileModel.Insert(l.ctx, &model.File{
+	_, err := l.svcCtx.FileModel.TxInsert(l.ctx, in.UserId, l.svcCtx.GormDB, &model.File{
 		//Id: 6,
 		Name:      in.Name,
 		Type:      "folder",

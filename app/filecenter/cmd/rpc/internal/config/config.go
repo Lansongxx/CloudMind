@@ -1,7 +1,6 @@
 package config
 
 import (
-	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/zrpc"
 )
@@ -15,8 +14,8 @@ type Config struct {
 
 	Cache cache.CacheConf
 
-	OSS struct {
-		Conf   oss.Config
-		Bucket string
-	}
+	//OSS struct {
+	//	Conf   oss.Config
+	//	Bucket string
+	//}
 }

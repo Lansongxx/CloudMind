@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"CloudMind/app/filecenter/model"
 	"context"
 
 	"CloudMind/app/filecenter/cmd/rpc/internal/svc"
@@ -25,8 +26,21 @@ func NewFileMoveLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileMove
 
 func (l *FileMoveLogic) FileMove(in *pb.FileMoveReq) (*pb.FileMoveResp, error) {
 
-	// 手动开事务 在里面分别调用不同表格
-	l.svcCtx.FileModel.TxDelete(l.ctx, l.svcCtx.GormDB, in.Id)
+	resp, err := l.svcCtx.FileModel.UpdateOneMapById(l.ctx, in.Id, map[string]interface{}{
+		"parent_id": in.PreParentId,
+	})
 
-	return &pb.FileMoveResp{}, nil
+	if err != nil && err != model.ErrNotFound {
+		return nil, err
+	}
+
+	if resp == 0 {
+		return &pb.FileMoveResp{
+			Error: "没有该文件",
+		}, nil
+	}
+
+	return &pb.FileMoveResp{
+		Error: "移动成功",
+	}, nil
 }

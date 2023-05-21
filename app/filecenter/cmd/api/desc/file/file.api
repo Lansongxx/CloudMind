@@ -30,17 +30,6 @@ type (
     FileUploadResp{}
 )
 
-// 上传头像
-type (
-    UploadPictureReq {
-        Md5 string // md5值
-        Id int64   // 用户Id
-        Picture []byte // 头像字节数组
-    }
-
-    UploadPictureResp {}
-)
-
 // 文件下载
 type(
     FileDownloadReq {
@@ -81,6 +70,7 @@ type(
 // 新建文件夹
 type(
     FileCreateReq{
+        UserId int64 `json:"userId"` // 用户编号
         ParentId int64  `json:"parentId"` // 父文件夹编号
         Name string `json:"name"` // 文件名
     }
@@ -93,10 +83,11 @@ type(
     FilePrefix{
         ParentId int64 `json:"parentId"` // 父文件夹编号
         Id int64 `json:"id"` // 文件编号
+        Type string `json:"type"` // 文件类型
     }
 
     FileDeletionReq{
-        Delist []FilePrefix `json:"delist"` // 删除请求数组
+        Delist []int64 `json:"delist"` // 删除请求数组
     }
 
     FileDeletionResp{}

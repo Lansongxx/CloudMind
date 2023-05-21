@@ -17,3 +17,6 @@ FileRpcConf:
   Endpoints:
     - 127.0.0.1:4003
   NonBlock: true
+
+JwtAuth:
+  AccessSecret: ae0536f9-6450-4606-8e13-5a19ed505da0

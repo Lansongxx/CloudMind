@@ -37,7 +37,7 @@ func (l *FilemoveLogic) Filemove(req *types.FileMoveReq) (*types.FileMoveResp, e
 		return nil, err
 	}
 
-	if resp.Error != "" {
+	if resp.Error != "移动成功" {
 		return nil, errorx.NewDefaultError(resp.Error)
 	}
 

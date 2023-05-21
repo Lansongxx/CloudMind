@@ -43,7 +43,8 @@ message UploadPictureReq {
 }
 
 message UploadPictureResp {
-  string Error = 1;
+  string URL = 1;
+  string Error = 2;
 }
 
 message FileDownloadReq{
@@ -81,17 +82,23 @@ message FileNameUpdateResp{
 }
 
 message FileCreateReq{
-  int64 ParentId = 1;
-  string Name = 2;
+  int64 UserId = 1;
+  int64 ParentId = 2;
+  string Name = 3;
 }
 
 message FileCreateResp{
   string Error = 1;
 }
 
+message FilePrefix{
+  int64 ParentId = 1;
+  int64 Id = 2;
+  string Type = 3;
+}
+
 message FileDeletionReq{
-  repeated int64 ParentId = 1;
-  repeated int64 Id = 2;
+  repeated int64 List = 1;
 }
 
 message FileDeletionResp{

@@ -29,6 +29,7 @@ type (
 	FileMoveResp       = pb.FileMoveResp
 	FileNameUpdateReq  = pb.FileNameUpdateReq
 	FileNameUpdateResp = pb.FileNameUpdateResp
+	FilePrefix         = pb.FilePrefix
 	FileShareReq       = pb.FileShareReq
 	FileShareResp      = pb.FileShareResp
 	FileShareSaveReq   = pb.FileShareSaveReq

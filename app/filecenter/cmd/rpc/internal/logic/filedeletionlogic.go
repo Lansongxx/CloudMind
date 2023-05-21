@@ -25,7 +25,11 @@ func NewFileDeletionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *File
 
 func (l *FileDeletionLogic) FileDeletion(in *pb.FileDeletionReq) (*pb.FileDeletionResp, error) {
 
-	//l.svcCtx.FileModel.TxDelete()
+	_, err := l.svcCtx.FileModel.TxDeletes(l.ctx, l.svcCtx.GormDB, in.List)
+
+	if err != nil {
+		return nil, err
+	}
 
 	return &pb.FileDeletionResp{}, nil
 }

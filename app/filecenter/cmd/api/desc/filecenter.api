@@ -5,13 +5,14 @@ import "file/file.api"
 @server(
 	prefix: filecenter/v1
 	group: file
+	jwt:JwtAuth
 )
 
 service filecenter{
 	@doc "文件上传"
 	@handler fileupload
 	post /file/fileUpload (FileUploadReq) returns (FileUploadResp)
-
+	
 	@doc "文件下载"
 	@handler filedownload
 	get /file/fileDownload (FileDownloadReq) returns (FileDownloadResp)

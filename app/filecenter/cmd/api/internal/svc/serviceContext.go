@@ -3,12 +3,14 @@ package svc
 import (
 	"CloudMind/app/filecenter/cmd/api/internal/config"
 	"CloudMind/app/filecenter/cmd/rpc/filecenter"
+	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {
 	Config  config.Config
 	FileRpc filecenter.Filecenter
+	JwtAuth rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {

@@ -24,7 +24,19 @@ func NewFiledownloadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *File
 
 func (l *FiledownloadLogic) Filedownload(req *types.FileDownloadReq) (*types.FileDownloadResp, error) {
 
-	//resp, err
+	//resp, err := l.svcCtx.FileRpc.FileUpload(l.ctx, &pb.FileUploadReq{
+	//	Name:       req.Name,
+	//	Type:       req.Type,
+	//	SourcePath: req.SourcePath,
+	//})
+	//
+	//if err != nil {
+	//	return nil, err
+	//}
+	//
+	//if resp.Error != "" {
+	//	return nil, errorx.NewDefaultError(resp.Error)
+	//}
 
 	return nil, nil
 }

@@ -1,33 +1,60 @@
 create table file
 (
-    id         bigint auto_increment primary key,
+    id         bigint auto_increment
+        primary key,
+    created_at datetime     null,
+    updated_at datetime     null,
+    deleted_at datetime     null,
     name       varchar(50)  not null,
     type       varchar(20)  not null,
     path       varchar(100) not null,
     size       varchar(20)  not null,
-    shareLink  varchar(100) not null,
-    modifyTime bigint       not null,
+    share_link varchar(100) not null,
+    parent_id  bigint       not null,
     constraint file_pk2
         unique (id)
 );
 
 create table file_md5
 (
-    id   bigint       not null
+    id      bigint       not null
         primary key,
-    name varchar(100) not null,
-    md5  varchar(500) not null,
+    file_id bigint       not null,
+    md5     varchar(500) not null,
     constraint file_md5_pk2
         unique (md5)
 );
 
-create table file_folder
+create table profile_picture
 (
-    id        bigint not null
+    id      bigint auto_increment
         primary key,
-    parent_id bigint not null,
-    pre_id    bigint not null
+    md5     varchar(600) not null,
+    picture mediumblob   not null,
+    constraint Profile_Picture_pk
+        unique (md5)
 );
+
+create table user_file
+(
+    id      bigint auto_increment
+        primary key,
+    user_id bigint not null,
+    file_id bigint not null,
+    constraint user_file_pk
+        unique (file_id),
+    constraint user_file_pk2
+        unique (id)
+);
+
+create table user_profile
+(
+    id      bigint auto_increment
+        primary key,
+    user_id bigint       not null,
+    md5     varchar(600) null
+);
+
 
 
 // 使用joins 生成衍生表(等价于子查询)

@@ -60,6 +60,7 @@ type FileNameUpdateResp struct {
 }
 
 type FileCreateReq struct {
+	UserId   int64  `json:"userId"`   // 用户编号
 	ParentId int64  `json:"parentId"` // 父文件夹编号
 	Name     string `json:"name"`     // 文件名
 }
@@ -68,12 +69,13 @@ type FileCreateResp struct {
 }
 
 type FilePrefix struct {
-	ParentId int64 `json:"parentId"` // 父文件夹编号
-	Id       int64 `json:"id"`       // 文件编号
+	ParentId int64  `json:"parentId"` // 父文件夹编号
+	Id       int64  `json:"id"`       // 文件编号
+	Type     string `json:"type"`     // 文件类型
 }
 
 type FileDeletionReq struct {
-	Delist []FilePrefix `json:"delist"` // 删除请求数组
+	Delist []int64 `json:"delist"` // 删除请求数组
 }
 
 type FileDeletionResp struct {
