@@ -173,6 +173,34 @@
         ]
       }
     },
+    "usercenter/v1/user/Logout": {
+      "post": {
+        "summary": "退出登录",
+        "operationId": "Logout",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LogoutResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LogoutReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "user"
+        ]
+      }
+    },
     "usercenter/v1/user/RealNameAuthentication": {
       "post": {
         "summary": "实名认证",
@@ -396,6 +424,14 @@
       "required": [
         "userInfo"
       ]
+    },
+    "LogoutReq": {
+      "type": "object",
+      "title": "LogoutReq"
+    },
+    "LogoutResp": {
+      "type": "object",
+      "title": "LogoutResp"
     },
     "QqLoginReq": {
       "type": "object",

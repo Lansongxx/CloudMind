@@ -57,15 +57,16 @@ FLUSH PRIVILEGES;
 | Elastic search | 9200  |
 
 
-| 类型名              | 端口号   | Prometheus监听端口号 | 
-|------------------|-------|-----------------|
-| usercenter-api   | 2001  | 3002            |
-| mqueue-job       | 2002  | 3004            |
-| usercenter-rpc   | 4001  | 3003            |
-| mqueue-scheduler | 4002  | 3005            |
-| filecenter-api   | 2003  | 3006            |
-| filecenter-rpc   | 4003  | 3007            |
-| es-rpc           | 4004  | 3008            |
+| 类型名              | 端口号  | Prometheus监听端口号 | 
+|------------------|------|-----------------|
+| usercenter-api   | 2001 | 3002            |
+| mqueue-job       | 2002 | 3004            |
+| usercenter-rpc   | 4001 | 3003            |
+| mqueue-scheduler | 4002 | 3005            |
+| filecenter-api   | 2003 | 3006            |
+| filecenter-rpc   | 4003 | 3007            |
+| es-api           | 2004 | 3008            |             
+| es-rpc           | 4004 | 3009            |
   
 
 #### tips: API的端口从20开始, RPC的端口从40开始, Prometheus端口从30开始
@@ -159,7 +160,7 @@ $ vim id_rsa.pub // 这里换成你生成的 .pub文件
 ```
 $ sudo apt install docker.io
 
-// 配置用户组
+// 配置用户组支持自定义请求的格式，默认的请求格式为 {subject, object, action}。
 sudo groupadd docker
 sudo usermod -aG docker $USER
 newgrp docker
@@ -195,17 +196,18 @@ docker-compose --version
 - [ ] mqueue
     - [x] 每月定时发放流量
 - [ ] elasticsearch
-    - [x] 简单的模糊搜索和精确搜索
-
-搜索： 搜索帖子， 搜索资源（本地，公共），
-
-搜索帖子(模糊搜索) 提供一个字符串在标题和内容中进行搜索。。。
-搜索资源(模糊搜索) 提供一个字符串在标题中找----
-所以需要有一个index存放帖子的标题， 标题id， 标题图标的表
-index: Posts
-对应的表: title(string), id(int64), avatar(string)
-
-所以需要有一个index存放资源的名字， 资源的id， 资源的图表 
-index: Sources
-对应的表: title(string), id(int64), avatar(string)
-
+    - [ ] 排行榜功能
+      - [ ] 总/月/日榜功能
+      - [x] 下载量/收藏量/点赞量的文件/帖子排行
+    - [ ] 搜索功能
+      - [ ] 搜索文件
+        - [x] 按相关性排序
+        - [ ] 按下载量排序
+        - [ ] 按点赞量排序
+        - [ ] 按收藏量排序
+      - [ ] 搜索帖子
+        - [x] 按相关性排序
+        - [ ] 按点赞量排序
+        - [ ] 按收藏量排序
+        
+    
