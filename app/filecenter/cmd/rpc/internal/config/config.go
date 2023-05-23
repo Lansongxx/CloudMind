@@ -13,4 +13,9 @@ type Config struct {
 	}
 
 	Cache cache.CacheConf
+
+	//OSS struct {
+	//	Conf   oss.Config
+	//	Bucket string
+	//}
 }

@@ -11,55 +11,50 @@ import (
 )
 
 type (
-	fileModel interface {
-		Insert(ctx context.Context, data *File) (int64, error)                              // 返回的是受影响行数，如需获取自增id，请通过data参数获取
-		TxInsert(ctx context.Context, userId int64, tx *gorm.DB, data *File) (int64, error) // 用于事务新增数据，由上层(如rpc层)调用Transaction去实现，返回受影响的行数
+	fileMd5Model interface {
+		Insert(ctx context.Context, data *FileMd5) (int64, error)                // 返回的是受影响行数，如需获取自增id，请通过data参数获取
+		TxInsert(ctx context.Context, tx *gorm.DB, data *FileMd5) (int64, error) // 用于事务新增数据，由上层(如rpc层)调用Transaction去实现，返回受影响的行数
 
-		FindOne(ctx context.Context, id int64) (*File, error)                                                 // 通过主键id查找数据
-		Finds(ctx context.Context, queries []Query, orders []Order) ([]*File, error)                          // 按条件查询，不分页
-		FindsByPage(ctx context.Context, queries []Query, page *Page, orders []Order) ([]*File, int64, error) // 分页查询
+		FindOne(ctx context.Context, id int64) (*FileMd5, error)                                                 // 通过主键id查找数据
+		Finds(ctx context.Context, queries []Query, orders []Order) ([]*FileMd5, error)                          // 按条件查询，不分页
+		FindsByPage(ctx context.Context, queries []Query, page *Page, orders []Order) ([]*FileMd5, int64, error) // 分页查询
 		FindCount(ctx context.Context, queries []Query) (int64, error)
 
-		Update(ctx context.Context, id int64, data *File) (int64, error)                                           // 通过主键id更新指定字段，零值不可更新，返回受影响行数
-		TxUpdate(ctx context.Context, tx *gorm.DB, id int64, data *File) (int64, error)                            // 用于事务更新数据，由上层(如rpc层)调用Transaction去实现，零值不可更新，返回受影响行数
+		FindOneByMd5(ctx context.Context, md5 string) (*FileMd5, error) // 通过指定字段查找数据
+
+		Update(ctx context.Context, id int64, data *FileMd5) (int64, error)                                        // 通过主键id更新指定字段，零值不可更新，返回受影响行数
+		TxUpdate(ctx context.Context, tx *gorm.DB, id int64, data *FileMd5) (int64, error)                         // 用于事务更新数据，由上层(如rpc层)调用Transaction去实现，零值不可更新，返回受影响行数
 		UpdateOneMapById(ctx context.Context, id int64, data map[string]interface{}) (int64, error)                // 通过主键id更新字段，map参数为数据库需要更新的字段，返回受影响行数
 		TxUpdateOneMapById(ctx context.Context, tx *gorm.DB, id int64, data map[string]interface{}) (int64, error) // 用于事务更新字段，由上层(如rpc层)调用Transaction去实现，返回受影响的行数
 
-		Delete(ctx context.Context, id int64) (int64, error)                   // 通过主键id删除数据，返回受影响行数
-		TxDelete(ctx context.Context, tx *gorm.DB, id int64) (int64, error)    // 用于事务删除数据，由上层(如rpc层)调用Transaction去实现，返回受影响行数
-		Deletes(ctx context.Context, ids []int64) (int64, error)               // 通过主键id批量删除数据，返回受影响行数
-		TxDeletes(ctx context.Context, t *gorm.DB, ids []int64) (int64, error) // 用于事务批量删除数据，由上层(如rpc层)调用Transaction去实现，返回受影响行数
+		Delete(ctx context.Context, id int64) (int64, error)                    // 通过主键id删除数据，返回受影响行数
+		TxDelete(ctx context.Context, tx *gorm.DB, id int64) (int64, error)     // 用于事务删除数据，由上层(如rpc层)调用Transaction去实现，返回受影响行数
+		Deletes(ctx context.Context, ids []int64) (int64, error)                // 通过主键id批量删除数据，返回受影响行数
+		TxDeletes(ctx context.Context, tx *gorm.DB, ids []int64) (int64, error) // 用于事务批量删除数据，由上层(如rpc层)调用Transaction去实现，返回受影响行数
+
 	}
 
-	defaultFileModel struct {
+	defaultFileMd5Model struct {
 		DB *gorm.DB
 	}
 
-	File struct {
-		gorm.Model
+	FileMd5 struct {
+		Id int64 `db:"id"`
 
-		Name string `db:"name"`
+		FileId int64 `db:"file_id"`
 
-		Type string `db:"type"`
-
-		Path string `db:"path"`
-
-		Size string `db:"size"`
-
-		ShareLink string `db:"share_link"`
-
-		ParentId int64 `db:"parent_id"`
+		Md5 string `db:"md5"`
 	}
 )
 
-func newFileModel(conn *gorm.DB) *defaultFileModel {
-	return &defaultFileModel{
+func newFileMd5Model(conn *gorm.DB) *defaultFileMd5Model {
+	return &defaultFileMd5Model{
 		DB: conn,
 	}
 }
 
 // Insert 返回的是受影响行数，如需获取自增id，请通过data参数获取
-func (d *defaultFileModel) Insert(ctx context.Context, data *File) (int64, error) {
+func (d *defaultFileMd5Model) Insert(ctx context.Context, data *FileMd5) (int64, error) {
 	logx.WithContext(ctx).Infof("insert data:%+v", data)
 
 	if data == nil {
@@ -78,54 +73,25 @@ func (d *defaultFileModel) Insert(ctx context.Context, data *File) (int64, error
 
 // TxInsert // 用于事务新增数据，由上层(如rpc层)调用Transaction去实现，返回受影响的行数
 // tx：上层传递时请加上context
-func (d *defaultFileModel) TxInsert(ctx context.Context, userId int64, t *gorm.DB, data *File) (int64, error) {
+func (d *defaultFileMd5Model) TxInsert(ctx context.Context, tx *gorm.DB, data *FileMd5) (int64, error) {
 	logx.WithContext(ctx).Infof("txInsert data:%+v", data)
 
 	if data == nil {
 		logx.WithContext(ctx).Errorf("txInsert error:%+v", "param invalid")
-		return -1, InputParamInvalid
+		return 0, InputParamInvalid
 	}
 
-	tx := t.Begin()
 	result := tx.Debug().WithContext(ctx).Create(data)
 	if result.Error != nil {
 		logx.WithContext(ctx).Errorf("txInsert error:%+v", result.Error)
-		return -1, WriteDataFailed
+		return 0, WriteDataFailed
 	}
 
-	result = tx.Debug().WithContext(ctx).Create(&FileMd5{
-		FileId: int64(data.ID),
-		Md5:    "",
-	})
-
-	if result.Error != nil {
-		logx.WithContext(ctx).Errorf("txInsert error:%+v", result.Error)
-		return -1, WriteDataFailed
-	}
-
-	result = tx.Debug().WithContext(ctx).Create(&UserFile{
-		UserId: userId,
-		FileId: int64(data.ID),
-	})
-
-	if result.Error != nil {
-		logx.WithContext(ctx).Errorf("txInsert error:%+v", result.Error)
-		return -1, WriteDataFailed
-	}
-
-	tx.Commit()
-
-	defer func() {
-		if r := recover(); r != nil {
-			tx.Rollback()
-		}
-	}()
-
-	return int64(data.ID), nil
+	return result.RowsAffected, nil
 }
 
 // Update 通过主键id更新指定字段，零值不可更新，返回受影响行数
-func (d *defaultFileModel) Update(ctx context.Context, id int64, data *File) (int64, error) {
+func (d *defaultFileMd5Model) Update(ctx context.Context, id int64, data *FileMd5) (int64, error) {
 	logx.WithContext(ctx).Infof("update data:%+v", data)
 
 	if id <= 0 {
@@ -143,7 +109,7 @@ func (d *defaultFileModel) Update(ctx context.Context, id int64, data *File) (in
 }
 
 // TxUpdate 用于事务更新数据，由上层(如rpc层)调用Transaction去实现，零值不可更新，返回受影响行数
-func (d *defaultFileModel) TxUpdate(ctx context.Context, tx *gorm.DB, id int64, data *File) (int64, error) {
+func (d *defaultFileMd5Model) TxUpdate(ctx context.Context, tx *gorm.DB, id int64, data *FileMd5) (int64, error) {
 	logx.WithContext(ctx).Infof("txUpdate data:%+v", data)
 
 	if id <= 0 {
@@ -161,7 +127,7 @@ func (d *defaultFileModel) TxUpdate(ctx context.Context, tx *gorm.DB, id int64, 
 }
 
 // UpdateOneMapById 通过主键id更新字段，map参数为数据库需要更新的字段，返回受影响行数
-func (d *defaultFileModel) UpdateOneMapById(ctx context.Context, id int64, data map[string]interface{}) (int64, error) {
+func (d *defaultFileMd5Model) UpdateOneMapById(ctx context.Context, id int64, data map[string]interface{}) (int64, error) {
 	logx.WithContext(ctx).Infof("updateOneMapById data:%+v", data)
 
 	if id <= 0 {
@@ -169,7 +135,7 @@ func (d *defaultFileModel) UpdateOneMapById(ctx context.Context, id int64, data 
 		return 0, InputParamInvalid
 	}
 
-	result := d.DB.Debug().WithContext(ctx).Model(&File{}).Where("`id` = ?", id).Updates(data)
+	result := d.DB.Debug().WithContext(ctx).Model(&FileMd5{}).Where("`id` = ?", id).Updates(data)
 	if result.Error != nil {
 		logx.WithContext(ctx).Errorf("updateOneMapById error:%+v", result.Error)
 		return 0, WriteDataFailed
@@ -180,7 +146,7 @@ func (d *defaultFileModel) UpdateOneMapById(ctx context.Context, id int64, data 
 
 // TxUpdateOneMapById 用于事务更新字段，由上层(如rpc层)调用Transaction去实现，返回受影响的行数
 // tx：上层传递时请加上context
-func (d *defaultFileModel) TxUpdateOneMapById(ctx context.Context, tx *gorm.DB, id int64, data map[string]interface{}) (int64, error) {
+func (d *defaultFileMd5Model) TxUpdateOneMapById(ctx context.Context, tx *gorm.DB, id int64, data map[string]interface{}) (int64, error) {
 	logx.WithContext(ctx).Infof("txUpdateOneMapById data:%+v", data)
 
 	if id <= 0 {
@@ -188,7 +154,7 @@ func (d *defaultFileModel) TxUpdateOneMapById(ctx context.Context, tx *gorm.DB, 
 		return 0, InputParamInvalid
 	}
 
-	result := tx.Debug().WithContext(ctx).Model(&File{}).Where("`id` = ?", id).Updates(data)
+	result := tx.Debug().WithContext(ctx).Model(&FileMd5{}).Where("`id` = ?", id).Updates(data)
 	if result.Error != nil {
 		logx.WithContext(ctx).Errorf("txUpdateOneMapById error:%+v", result.Error)
 		return 0, WriteDataFailed
@@ -198,7 +164,7 @@ func (d *defaultFileModel) TxUpdateOneMapById(ctx context.Context, tx *gorm.DB, 
 }
 
 // Delete 通过主键id删除数据，返回受影响行数
-func (d *defaultFileModel) Delete(ctx context.Context, id int64) (int64, error) {
+func (d *defaultFileMd5Model) Delete(ctx context.Context, id int64) (int64, error) {
 	logx.WithContext(ctx).Infof("delete data:%+v", id)
 
 	if id <= 0 {
@@ -206,7 +172,7 @@ func (d *defaultFileModel) Delete(ctx context.Context, id int64) (int64, error) 
 		return 0, InputParamInvalid
 	}
 
-	result := d.DB.Debug().WithContext(ctx).Where("`id` = ?", id).Delete(&File{})
+	result := d.DB.Debug().WithContext(ctx).Where("`id` = ?", id).Delete(&FileMd5{})
 	if result.Error != nil {
 		logx.WithContext(ctx).Errorf("delete error:%+v", result.Error)
 		return 0, WriteDataFailed
@@ -216,7 +182,7 @@ func (d *defaultFileModel) Delete(ctx context.Context, id int64) (int64, error) 
 }
 
 // TxDelete 用于事务删除数据，由上层(如rpc层)调用Transaction去实现，返回受影响行数
-func (d *defaultFileModel) TxDelete(ctx context.Context, tx *gorm.DB, id int64) (int64, error) {
+func (d *defaultFileMd5Model) TxDelete(ctx context.Context, tx *gorm.DB, id int64) (int64, error) {
 	logx.WithContext(ctx).Infof("txDelete data:%+v", id)
 
 	if id <= 0 {
@@ -224,7 +190,7 @@ func (d *defaultFileModel) TxDelete(ctx context.Context, tx *gorm.DB, id int64) 
 		return 0, InputParamInvalid
 	}
 
-	result := tx.Debug().WithContext(ctx).Where("`id` = ?", id).Delete(&File{})
+	result := tx.Debug().WithContext(ctx).Where("`id` = ?", id).Delete(&FileMd5{})
 	if result.Error != nil {
 		logx.WithContext(ctx).Errorf("txDelete error:%+v", result.Error)
 		return 0, WriteDataFailed
@@ -234,7 +200,7 @@ func (d *defaultFileModel) TxDelete(ctx context.Context, tx *gorm.DB, id int64) 
 }
 
 // Deletes 通过主键id批量删除数据，返回受影响行数
-func (d *defaultFileModel) Deletes(ctx context.Context, ids []int64) (int64, error) {
+func (d *defaultFileMd5Model) Deletes(ctx context.Context, ids []int64) (int64, error) {
 	logx.WithContext(ctx).Infof("deletes data:%+v", ids)
 
 	if len(ids) == 0 {
@@ -242,7 +208,7 @@ func (d *defaultFileModel) Deletes(ctx context.Context, ids []int64) (int64, err
 		return 0, InputParamInvalid
 	}
 
-	result := d.DB.Debug().WithContext(ctx).Where("`id` in ?", ids).Delete(&File{})
+	result := d.DB.Debug().WithContext(ctx).Where("`id` in ?", ids).Delete(&FileMd5{})
 	if result.Error != nil {
 		logx.WithContext(ctx).Errorf("deletes error:%+v", result.Error)
 		return 0, WriteDataFailed
@@ -252,7 +218,7 @@ func (d *defaultFileModel) Deletes(ctx context.Context, ids []int64) (int64, err
 }
 
 // TxDeletes 用于事务批量删除数据，由上层(如rpc层)调用Transaction去实现，返回受影响行数
-func (d *defaultFileModel) TxDeletes(ctx context.Context, t *gorm.DB, ids []int64) (int64, error) {
+func (d *defaultFileMd5Model) TxDeletes(ctx context.Context, tx *gorm.DB, ids []int64) (int64, error) {
 	logx.WithContext(ctx).Infof("txDeletes data:%+v", ids)
 
 	if len(ids) == 0 {
@@ -260,30 +226,17 @@ func (d *defaultFileModel) TxDeletes(ctx context.Context, t *gorm.DB, ids []int6
 		return 0, InputParamInvalid
 	}
 
-	tx := t.Begin()
-	result := tx.Debug().WithContext(ctx).Where("`id` in ?", ids).Delete(&File{})
+	result := tx.Debug().WithContext(ctx).Where("`id` in ?", ids).Delete(&FileMd5{})
 	if result.Error != nil {
 		logx.WithContext(ctx).Errorf("txDeletes error:%+v", result.Error)
 		return 0, WriteDataFailed
 	}
 
-	if result.RowsAffected != int64(len(ids)) {
-		return 0, WriteDataFailed
-	}
-
-	tx.Commit()
-
-	defer func() {
-		if r := recover(); r != nil {
-			tx.Rollback()
-		}
-	}()
-
 	return result.RowsAffected, nil
 }
 
 // FindOne 通过主键id查找数据
-func (d *defaultFileModel) FindOne(ctx context.Context, id int64) (*File, error) {
+func (d *defaultFileMd5Model) FindOne(ctx context.Context, id int64) (*FileMd5, error) {
 	logx.WithContext(ctx).Infof("findOne data:%+v", id)
 
 	if id <= 0 {
@@ -291,7 +244,7 @@ func (d *defaultFileModel) FindOne(ctx context.Context, id int64) (*File, error)
 		return nil, InputParamInvalid
 	}
 
-	var result File
+	var result FileMd5
 	err := d.DB.Debug().WithContext(ctx).Where("`id` = ?", id).First(&result).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -307,10 +260,10 @@ func (d *defaultFileModel) FindOne(ctx context.Context, id int64) (*File, error)
 // Finds 按条件查询，不分页
 // queries: 查询条件集合;
 // orders: 排序字符串
-func (d *defaultFileModel) Finds(ctx context.Context, queries []Query, orders []Order) ([]*File, error) {
+func (d *defaultFileMd5Model) Finds(ctx context.Context, queries []Query, orders []Order) ([]*FileMd5, error) {
 	logx.WithContext(ctx).Infof("finds queries: %+v, orders: %+v", queries, orders)
 
-	var result []*File
+	var result []*FileMd5
 	db := d.DB.Debug().WithContext(ctx)
 	for _, query := range queries {
 		db = db.Where(fmt.Sprintf("`%s` %s ?", query.Field, query.Condition), query.Value)
@@ -340,17 +293,17 @@ func (d *defaultFileModel) Finds(ctx context.Context, queries []Query, orders []
 // queries: 查询条件集合;
 // page: 分页条件
 // orders: 排序字符串
-func (d *defaultFileModel) FindsByPage(ctx context.Context, queries []Query, page *Page, orders []Order) ([]*File, int64, error) {
+func (d *defaultFileMd5Model) FindsByPage(ctx context.Context, queries []Query, page *Page, orders []Order) ([]*FileMd5, int64, error) {
 	logx.WithContext(ctx).Infof("findsByPage queries: %+v, page: %+v, orders: %+v", queries, page, orders)
 
-	var result []*File
+	var result []*FileMd5
 	var count int64
 	db := d.DB.Debug().WithContext(ctx)
 	for _, query := range queries {
 		db = db.Where(fmt.Sprintf("`%s` %s ?", query.Field, query.Condition), query.Value)
 	}
 
-	err := db.Model(&File{}).Count(&count).Error
+	err := db.Model(&FileMd5{}).Count(&count).Error
 	if err != nil {
 		logx.WithContext(ctx).Errorf("findsByPage error:%+v", err)
 		return nil, 0, ReadDataFailed
@@ -378,8 +331,7 @@ func (d *defaultFileModel) FindsByPage(ctx context.Context, queries []Query, pag
 		db = db.Offset(page.PageIndex * page.PageSize).Limit(page.PageSize)
 	}
 
-	err = db.Find(&result).Error
-
+	err = db.Find(result).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, 0, ErrNotFound
@@ -393,7 +345,7 @@ func (d *defaultFileModel) FindsByPage(ctx context.Context, queries []Query, pag
 
 // FindCount 按条件查询记录条数
 // queries: 查询条件集合;
-func (d *defaultFileModel) FindCount(ctx context.Context, queries []Query) (int64, error) {
+func (d *defaultFileMd5Model) FindCount(ctx context.Context, queries []Query) (int64, error) {
 	logx.WithContext(ctx).Infof("findCount queries: %+v", queries)
 
 	db := d.DB.Debug().WithContext(ctx)
@@ -402,7 +354,7 @@ func (d *defaultFileModel) FindCount(ctx context.Context, queries []Query) (int6
 	}
 
 	var count int64
-	err := db.Model(&File{}).Count(&count).Error
+	err := db.Model(&FileMd5{}).Count(&count).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return 0, ErrNotFound
@@ -412,4 +364,21 @@ func (d *defaultFileModel) FindCount(ctx context.Context, queries []Query) (int6
 	}
 
 	return count, nil
+}
+
+// FindOneByMd5 通过指定字段查找数据
+func (d *defaultFileMd5Model) FindOneByMd5(ctx context.Context, md5 string) (*FileMd5, error) {
+	logx.WithContext(ctx).Infof("findOneByMd5 data:%+v", md5)
+
+	var result FileMd5
+	err := d.DB.Debug().WithContext(ctx).Where("`md5` = ?", md5).First(&result).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrNotFound
+		}
+		logx.WithContext(ctx).Errorf("findOneByMd5 error:%+v", err)
+		return nil, err
+	}
+
+	return &result, nil
 }

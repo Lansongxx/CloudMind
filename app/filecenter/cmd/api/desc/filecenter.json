@@ -1,0 +1,797 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "filecenter/v1/file/fileCreate": {
+      "post": {
+        "summary": "创建文件夹",
+        "operationId": "filecreate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileCreateResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FileCreateReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "file"
+        ]
+      }
+    },
+    "filecenter/v1/file/fileDeletion": {
+      "delete": {
+        "summary": "删除文件",
+        "operationId": "filedeletion",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileDeletionResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FileDeletionReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "file"
+        ]
+      }
+    },
+    "filecenter/v1/file/fileDetails": {
+      "get": {
+        "summary": "查看文件详情",
+        "operationId": "filedetails",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileDetailsResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": " 文件编号",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "file"
+        ]
+      }
+    },
+    "filecenter/v1/file/fileDownload": {
+      "get": {
+        "summary": "文件下载",
+        "operationId": "filedownload",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileDownloadResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": " 文件编号",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "description": " 文件名",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "description": " 文件类型",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "file"
+        ]
+      }
+    },
+    "filecenter/v1/file/fileList": {
+      "get": {
+        "summary": "获取文件列表",
+        "operationId": "filelist",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": " 文件编号",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "page",
+            "description": " 页码",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "size",
+            "description": " 每页展示记录条数",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "field",
+            "description": " 排序字段名",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "asc",
+            "description": " 排序规则， true为升序",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "format": "boolean"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "file"
+        ]
+      }
+    },
+    "filecenter/v1/file/fileMove": {
+      "post": {
+        "summary": "文件移动",
+        "operationId": "filemove",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileMoveResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FileMoveReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "file"
+        ]
+      }
+    },
+    "filecenter/v1/file/fileNameUpdate": {
+      "post": {
+        "summary": "修改文件名",
+        "operationId": "filenameupdate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileNameUpdateResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FileNameUpdateReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "file"
+        ]
+      }
+    },
+    "filecenter/v1/file/fileShare": {
+      "post": {
+        "summary": "文件分享",
+        "operationId": "fileshare",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileShareResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FileShareReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "file"
+        ]
+      }
+    },
+    "filecenter/v1/file/fileShareSave": {
+      "post": {
+        "summary": "通过分享链接保存资源",
+        "operationId": "filesharesave",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileShareSaveResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FileShareSaveReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "file"
+        ]
+      }
+    },
+    "filecenter/v1/file/fileUpload": {
+      "post": {
+        "summary": "文件上传",
+        "operationId": "fileupload",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileUploadResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FileUploadReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "file"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "File": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件编号"
+        },
+        "name": {
+          "type": "string",
+          "description": " 文件名"
+        },
+        "type": {
+          "type": "string",
+          "description": " 文件类型"
+        },
+        "path": {
+          "type": "string",
+          "description": " 文件路径"
+        },
+        "size": {
+          "type": "string",
+          "description": " 文件大小"
+        },
+        "shareLink": {
+          "type": "string",
+          "description": " 分享链接"
+        },
+        "modifyTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": "文件最后修改时间"
+        }
+      },
+      "title": "File",
+      "required": [
+        "id",
+        "name",
+        "type",
+        "path",
+        "size",
+        "shareLink",
+        "modifyTime"
+      ]
+    },
+    "FileCreateReq": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户编号"
+        },
+        "parentId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父文件夹编号"
+        },
+        "name": {
+          "type": "string",
+          "description": " 文件名"
+        }
+      },
+      "title": "FileCreateReq",
+      "required": [
+        "userId",
+        "parentId",
+        "name"
+      ]
+    },
+    "FileCreateResp": {
+      "type": "object",
+      "title": "FileCreateResp"
+    },
+    "FileDeletionReq": {
+      "type": "object",
+      "properties": {
+        "delist": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilePrefix"
+          },
+          "description": " 删除请求数组"
+        }
+      },
+      "title": "FileDeletionReq",
+      "required": [
+        "delist"
+      ]
+    },
+    "FileDeletionResp": {
+      "type": "object",
+      "title": "FileDeletionResp"
+    },
+    "FileDetailsReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件编号"
+        }
+      },
+      "title": "FileDetailsReq",
+      "required": [
+        "id"
+      ]
+    },
+    "FileDetailsResp": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": " 文件名"
+        },
+        "type": {
+          "type": "string",
+          "description": " 文件类型"
+        },
+        "path": {
+          "type": "string",
+          "description": " 文件路径"
+        },
+        "size": {
+          "type": "string",
+          "description": " 文件大小"
+        },
+        "time": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件创建时间"
+        }
+      },
+      "title": "FileDetailsResp",
+      "required": [
+        "name",
+        "type",
+        "path",
+        "size",
+        "time"
+      ]
+    },
+    "FileDownloadReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件编号"
+        },
+        "name": {
+          "type": "string",
+          "description": " 文件名"
+        },
+        "type": {
+          "type": "string",
+          "description": " 文件类型"
+        }
+      },
+      "title": "FileDownloadReq",
+      "required": [
+        "id",
+        "name",
+        "type"
+      ]
+    },
+    "FileDownloadResp": {
+      "type": "object",
+      "title": "FileDownloadResp"
+    },
+    "FileListReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件编号"
+        },
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页展示记录条数"
+        },
+        "field": {
+          "type": "string",
+          "description": " 排序字段名"
+        },
+        "asc": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " 排序规则， true为升序"
+        }
+      },
+      "title": "FileListReq",
+      "required": [
+        "id",
+        "page",
+        "size",
+        "field",
+        "asc"
+      ]
+    },
+    "FileListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/File_in"
+          },
+          "description": " 文件列表"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 记录总数"
+        }
+      },
+      "title": "FileListResp",
+      "required": [
+        "list",
+        "count"
+      ]
+    },
+    "FileMoveReq": {
+      "type": "object",
+      "properties": {
+        "lastParentId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 原父文件夹编号"
+        },
+        "preParentId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 目标文件夹编号"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件编号"
+        }
+      },
+      "title": "FileMoveReq",
+      "required": [
+        "lastParentId",
+        "preParentId",
+        "id"
+      ]
+    },
+    "FileMoveResp": {
+      "type": "object",
+      "title": "FileMoveResp"
+    },
+    "FileNameUpdateReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件编号"
+        },
+        "name": {
+          "type": "string",
+          "description": " 文件名"
+        }
+      },
+      "title": "FileNameUpdateReq",
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "FileNameUpdateResp": {
+      "type": "object",
+      "title": "FileNameUpdateResp"
+    },
+    "FilePrefix": {
+      "type": "object",
+      "properties": {
+        "parentId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父文件夹编号"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件编号"
+        },
+        "type": {
+          "type": "string",
+          "description": " 文件类型"
+        }
+      },
+      "title": "FilePrefix",
+      "required": [
+        "parentId",
+        "id",
+        "type"
+      ]
+    },
+    "FileShareReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件编号"
+        }
+      },
+      "title": "FileShareReq",
+      "required": [
+        "id"
+      ]
+    },
+    "FileShareResp": {
+      "type": "object",
+      "properties": {
+        "shareLink": {
+          "type": "string",
+          "description": " 分享链接"
+        }
+      },
+      "title": "FileShareResp",
+      "required": [
+        "shareLink"
+      ]
+    },
+    "FileShareSaveReq": {
+      "type": "object",
+      "properties": {
+        "parentId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父文件夹编号"
+        },
+        "shareLink": {
+          "type": "string",
+          "description": " 分享链接"
+        },
+        "name": {
+          "type": "string",
+          "description": " 文件名"
+        }
+      },
+      "title": "FileShareSaveReq",
+      "required": [
+        "parentId",
+        "shareLink",
+        "name"
+      ]
+    },
+    "FileShareSaveResp": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件编号"
+        }
+      },
+      "title": "FileShareSaveResp",
+      "required": [
+        "id"
+      ]
+    },
+    "FileUploadReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": " 文件名"
+        },
+        "type": {
+          "type": "string",
+          "description": " 文件类型"
+        },
+        "sourcePath": {
+          "type": "string",
+          "description": " 源文件本地路径"
+        }
+      },
+      "title": "FileUploadReq",
+      "required": [
+        "name",
+        "type",
+        "sourcePath"
+      ]
+    },
+    "FileUploadResp": {
+      "type": "object",
+      "title": "FileUploadResp"
+    },
+    "File_in": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": " 文件名"
+        },
+        "type": {
+          "type": "string",
+          "description": " 文件类型"
+        },
+        "path": {
+          "type": "string",
+          "description": " 文件路径"
+        },
+        "size": {
+          "type": "string",
+          "description": " 文件大小"
+        },
+        "shareLink": {
+          "type": "string",
+          "description": " 分享链接"
+        },
+        "modifyTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": "文件最后修改时间"
+        }
+      },
+      "title": "File_in",
+      "required": [
+        "name",
+        "type",
+        "path",
+        "size",
+        "shareLink",
+        "modifyTime"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "apiKey": []
+    }
+  ]
+}

@@ -1,12 +1,10 @@
 package logic
 
 import (
-	"CloudMind/app/filecenter/model"
-	"context"
-	time2 "time"
-
 	"CloudMind/app/filecenter/cmd/rpc/internal/svc"
 	"CloudMind/app/filecenter/cmd/rpc/pb"
+	"CloudMind/app/filecenter/model"
+	"context"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,16 +25,14 @@ func NewFileCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileCr
 
 func (l *FileCreateLogic) FileCreate(in *pb.FileCreateReq) (*pb.FileCreateResp, error) {
 
-	t := time2.Now()
-	time := t.Unix()
-
-	_, err := l.svcCtx.FileModel.TxInsert(l.ctx, l.svcCtx.GormDB, &model.File{
-		Name:       in.Name,
-		Type:       "folder",
-		Path:       in.Path,
-		Size:       "0",
-		ShareLink:  "xxxxxx",
-		ModifyTime: time,
+	_, err := l.svcCtx.FileModel.TxInsert(l.ctx, in.UserId, l.svcCtx.GormDB, &model.File{
+		//Id: 6,
+		Name:      in.Name,
+		Type:      "folder",
+		Path:      "xxxx",
+		Size:      "0",
+		ShareLink: "xxxxxx",
+		ParentId:  in.ParentId,
 	})
 
 	if err != nil {
@@ -45,5 +41,7 @@ func (l *FileCreateLogic) FileCreate(in *pb.FileCreateReq) (*pb.FileCreateResp, 
 		}, err
 	}
 
-	return nil, nil
+	return &pb.FileCreateResp{
+		Error: "创建成功",
+	}, nil
 }

@@ -24,7 +24,12 @@ func NewFileDeletionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *File
 }
 
 func (l *FileDeletionLogic) FileDeletion(in *pb.FileDeletionReq) (*pb.FileDeletionResp, error) {
-	// todo: add your logic here and delete this line
+
+	_, err := l.svcCtx.FileModel.TxDeletes(l.ctx, l.svcCtx.GormDB, in.List)
+
+	if err != nil {
+		return nil, err
+	}
 
 	return &pb.FileDeletionResp{}, nil
 }

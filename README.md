@@ -99,7 +99,13 @@ $ sudo apt install vim
    $ export PATH=$PATH:/usr/local/go/bin
    $ source $HOME/.profile
 
-(4). 验证安装结果
+(4) 配置Go Module路径
+    首先在主目录下建立一个名字叫go的文件夹
+    sudo vim ~/.bashrc
+    export PATH=$PATH:/home/yeweiqiang/go/bin //这里的 /home/yeweiqiang 换成你的主目录路径
+    sudo source ~/.bashrc
+
+(5). 验证安装结果
    $ go version
    go version go1.20.4 linux/amd64
 ```

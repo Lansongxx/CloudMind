@@ -44,7 +44,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: file.FiledeletionHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodPut,
+				Method:  http.MethodPost,
 				Path:    "/file/fileMove",
 				Handler: file.FilemoveHandler(serverCtx),
 			},
@@ -64,6 +64,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: file.FiledetailsHandler(serverCtx),
 			},
 		},
+		rest.WithJwt(serverCtx.Config.JwtAuth.AccessSecret),
 		rest.WithPrefix("/filecenter/v1"),
 	)
 }

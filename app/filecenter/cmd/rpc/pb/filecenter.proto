@@ -6,25 +6,44 @@ package pb;
 
 message File{
   int64 Id = 1;
-  string Name = 2;
-  string Type = 3;
-  string Path = 4;
-  string Size = 5;
-  string ShareLink = 6;
-  int64 ModifyTime = 7;
+  int64 Created_at = 2;
+  int64 Updated_at = 3;
+  int64 Deleted_at = 4;
+  string Name = 5;
+  string Type = 6;
+  string Path = 7;
+  string Size = 8;
+  string ShareLink = 9;
+  int64 ParentId = 10;
+}
+
+message File_in{
+  string Name = 1;
+  string Type = 2;
+  string Path = 3;
+  string Size = 4;
+  string ShareLink = 5;
+  int64 Updated_at = 6;
 }
 
 message FileUploadReq{
   string Name = 1;
   string Type = 2;
-  int64 FileSize = 3;
-  string SourcePath = 4;
-  int64 Size = 5;
-  int64 Routines = 6;
+  string SourcePath = 3;
 }
 
 message FileUploadResp {
-  string flag = 1;
+  string Error = 1;
+}
+
+message UploadPictureReq {
+  string Md5 = 1; // md5值
+  int64 Id = 2; // 用户Id
+  bytes Picture = 3; // 头像字节数组
+}
+
+message UploadPictureResp {
+  string URL = 1;
   string Error = 2;
 }
 
@@ -43,17 +62,19 @@ message FileListReq{
   int64 Id = 1;
   int64 Page = 2;
   int64 Size = 3;
+  string Field = 4;
+  bool ASC = 5;
 }
 
 message FileListResp{
-  repeated File List = 1;
+  repeated File_in List = 1;
   int64 Count = 2;
   string Error = 3;
 }
 
 message FileNameUpdateReq{
   int64 Id = 1;
-  string Mame = 2;
+  string Name = 2;
 }
 
 message FileNameUpdateResp{
@@ -61,16 +82,23 @@ message FileNameUpdateResp{
 }
 
 message FileCreateReq{
-  string Path = 1;
-  string Name = 2;
+  int64 UserId = 1;
+  int64 ParentId = 2;
+  string Name = 3;
 }
 
 message FileCreateResp{
   string Error = 1;
 }
 
+message FilePrefix{
+  int64 ParentId = 1;
+  int64 Id = 2;
+  string Type = 3;
+}
+
 message FileDeletionReq{
-  int64 Id = 1;
+  repeated int64 List = 1;
 }
 
 message FileDeletionResp{
@@ -131,4 +159,5 @@ service filecenter {
   rpc FileShare(FileShareReq) returns (FileShareResp);
   rpc FileShareSave(FileShareSaveReq) returns (FileShareSaveResp);
   rpc FileDetails(FileDetailsReq) returns (FileDetailsResp);
+  rpc UploadPicture(UploadPictureReq) returns (UploadPictureResp);
 }
