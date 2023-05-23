@@ -261,7 +261,7 @@ func (d *defaultFileModel) TxDeletes(ctx context.Context, t *gorm.DB, ids []int6
 	}
 
 	tx := t.Begin()
-	result := tx.Debug().WithContext(ctx).Where("`(id)` in ?", ids).Delete(&File{})
+	result := tx.Debug().WithContext(ctx).Where("`id` in ?", ids).Delete(&File{})
 	if result.Error != nil {
 		logx.WithContext(ctx).Errorf("txDeletes error:%+v", result.Error)
 		return 0, WriteDataFailed

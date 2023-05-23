@@ -2,6 +2,7 @@ package file
 
 import (
 	"CloudMind/app/filecenter/cmd/rpc/filecenter"
+	"CloudMind/common/errorx"
 	"context"
 	"github.com/jinzhu/copier"
 
@@ -35,8 +36,12 @@ func (l *FiledetailsLogic) Filedetails(req *types.FileDetailsReq) (resp *types.F
 		return nil, err
 	}
 
-	var filedetails types.FileDetailsResp
-	_ = copier.Copy(&filedetails, x)
+	if x.Error != "" {
+		return nil, errorx.NewDefaultError("文件不存在")
+	}
 
-	return &filedetails, nil
+	var FileDetails types.FileDetailsResp
+	_ = copier.Copy(&FileDetails, x)
+
+	return &FileDetails, nil
 }
