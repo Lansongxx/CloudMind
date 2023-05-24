@@ -28,8 +28,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 返回值: 令牌内容(string)，过期时间(int64), 刷新时间(int64)
 */
 func (l *RegisterLogic) Register(in *pb.RegisterReq) (*pb.RegisterResp, error) {
-
-	// 判断是否已经注册过
+	//// 判断是否已经注册过
 	_, err := l.svcCtx.UserAuthModel.FindOneByAuthTypeAuthKey(l.ctx, in.UserAuth.AuthType, in.UserAuth.AuthKey)
 	if err != nil && err != model.ErrNotFound {
 		return nil, err

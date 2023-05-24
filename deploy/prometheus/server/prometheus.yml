@@ -50,3 +50,17 @@ scrape_configs:
           job: es-rpc
           app: es-rpc
           env: dev
+  - job_name: 'recommend-api'
+    static_configs:
+      - targets: [ 'CloudMind:3010' ]
+        labels:
+          job: recommend-api
+          app: recommend-api
+          env: dev
+  - job_name: 'recommend-rpc'
+    static_configs:
+      - targets: [ 'CloudMind:3011' ]
+        labels:
+          job: recommend-rpc
+          app: recommend-rpc
+          env: dev

@@ -1,0 +1,31 @@
+syntax = "v1"
+
+type FeedBack{
+     FeedbackType string    `json:"feedbackType"` // 评分类型: 下载，点赞，收藏，浏览
+     UserId string          `json:"userId"`       // 用户Id
+     ItemId string          `json:"itemId"`       // 物品Id
+     Timestamp string       `json:"timestamp"`    // 评分时间
+}
+type GetRecommendByUserIdReq {
+    Number int64 `path:"number"`
+}
+
+type GetRecommendByUserIdResp {
+    ItemIds []string `json:"itemIds"`
+}
+
+type GetRecommendByItemIdReq {
+    ItemId string `path:"ItemId"`
+    Number int64 `path:"number"`
+}
+
+type GetRecommendByItemIdResp {
+    ItemIds []string `json:"itemIds"`
+}
+
+type InsertFeedBackReq {
+    FeedBacks []FeedBack `json:"feedBacks"`
+}
+
+type InsertFeedBackResp {
+}

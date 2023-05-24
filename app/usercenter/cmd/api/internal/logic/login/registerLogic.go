@@ -1,12 +1,12 @@
 package login
 
 import (
-	"CloudMind/app/usercenter/cmd/rpc/pb"
-	"context"
-	"github.com/jinzhu/copier"
-
 	"CloudMind/app/usercenter/cmd/api/internal/svc"
 	"CloudMind/app/usercenter/cmd/api/internal/types"
+	"CloudMind/app/usercenter/cmd/rpc/pb"
+	"CloudMind/common/errorx"
+	"context"
+	"github.com/jinzhu/copier"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -38,6 +38,9 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (*types.RegisterResp, e
 	})
 	if err != nil {
 		return nil, err
+	}
+	if Resp.Error != "" {
+		return nil, errorx.NewDefaultError(Resp.Error)
 	}
 	var resp types.RegisterResp
 	_ = copier.Copy(&resp, Resp)

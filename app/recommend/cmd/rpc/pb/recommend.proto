@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+// 评分
+message FeedBack{
+  string FeedbackType = 1; // 评分类型: 下载，点赞，收藏，浏览
+  string UserId = 2;  // 用户Id
+  string ItemId = 3; // 物品Id
+  string Timestamp = 4; // 评分时间
+}
+
+// 物品
+message Item {
+  string ItemId = 1; // 物品Id
+  bool IsHidden = 2; // 是否隐藏
+  repeated string Labels = 3; // 物品标签
+  repeated string Categories = 4; // 物品仓库
+  string Timestamp = 5; // 物品添加时间
+  string Comment = 6; // 物品内容
+}
+
+message ItemPatch {
+  bool IsHidden = 1; // 是否隐藏
+  repeated string Labels = 2; // 物品标签
+  repeated string Categories = 3; // 物品仓库
+  string Timestamp = 4; // 物品添加时间
+  string Comment = 5; // 物品内容
+}
+
+message User {
+  string UserId = 1;   // 用户Id
+  repeated string Labels = 2; // 用户标签
+  repeated string Subscribe = 3; // 用户订阅
+  string Comment = 4; //  用户描述
+}
+
+// 插入评分
+message InsertFeedBackReq {
+  repeated FeedBack feedback = 1;
+}
+message InsertFeedBackResp {
+  string Error = 1;
+}
+
+// 插入物品
+message InsertItemReq {
+  Item Item = 1;
+}
+message InsertItemResp {
+  string Error = 1;
+}
+
+// 修改物品
+message UpdateItemReq {
+  string ItemId = 1;
+  ItemPatch ItemPatch = 2;
+}
+message UpdateItemResp {
+  string Error = 1;
+}
+
+// 删除物品
+message DeleteItemReq {
+  string ItemId = 1;
+}
+message DeleteItemResp {
+  string Error = 1;
+}
+
+// 根据某个物品获取相关推荐
+message GetRecommendByItemIdReq {
+  string ItemId = 1;
+  int64  Number = 2;
+}
+message GetRecommendByItemIdResp {
+  repeated string ItemId = 1;
+  string Error = 2;
+}
+
+// 根据用户Id获取推荐
+message GetRecommendByUserIdReq {
+  string UserId = 1;
+  int64  Number = 2;
+}
+message GetRecommendByUserIdResp {
+  repeated  string ItemId = 1;
+  string Error = 2;
+}
+
+service recommend {
+  rpc InsertFeedBack(InsertFeedBackReq) returns (InsertFeedBackResp);
+  rpc InsertItem(InsertItemReq) returns (InsertItemResp);
+  rpc DeleteItem(DeleteItemReq) returns (DeleteItemResp);
+  rpc UpdateItem(UpdateItemReq) returns (UpdateItemResp);
+  rpc GetRecommendByItem(GetRecommendByItemIdReq) returns(GetRecommendByItemIdResp);
+  rpc GetRecommendByUserId(GetRecommendByUserIdReq) returns(GetRecommendByUserIdResp);
+}

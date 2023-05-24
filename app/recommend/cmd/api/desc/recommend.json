@@ -1,0 +1,227 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "recommend/v1/GetRecommendByItemId/{itemId}/{number}": {
+      "get": {
+        "summary": "获取用户相关的推荐",
+        "operationId": "GetRecommendByItemId",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetRecommendByItemIdResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "number",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "recommend"
+        ]
+      }
+    },
+    "recommend/v1/GetRecommendByUserId/{number}": {
+      "get": {
+        "summary": "获取用户相关的推荐",
+        "operationId": "GetRecommendByUserId",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetRecommendByUserIdResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "number",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "recommend"
+        ]
+      }
+    },
+    "recommend/v1/InsertFeedBack": {
+      "post": {
+        "summary": "插入用户评分",
+        "operationId": "InsertFeedBack",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/InsertFeedBackResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InsertFeedBackReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "recommend"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "FeedBack": {
+      "type": "object",
+      "properties": {
+        "feedbackType": {
+          "type": "string",
+          "description": " 评分类型: 下载，点赞，收藏，浏览"
+        },
+        "userId": {
+          "type": "string",
+          "description": " 用户Id"
+        },
+        "itemId": {
+          "type": "string",
+          "description": " 物品Id"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": " 评分时间"
+        }
+      },
+      "title": "FeedBack",
+      "required": [
+        "feedbackType",
+        "userId",
+        "itemId",
+        "timestamp"
+      ]
+    },
+    "GetRecommendByItemIdReq": {
+      "type": "object",
+      "properties": {
+        "ItemId": {
+          "type": "string"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetRecommendByItemIdReq",
+      "required": [
+        "ItemId",
+        "number"
+      ]
+    },
+    "GetRecommendByItemIdResp": {
+      "type": "object",
+      "properties": {
+        "itemIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "GetRecommendByItemIdResp",
+      "required": [
+        "itemIds"
+      ]
+    },
+    "GetRecommendByUserIdReq": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetRecommendByUserIdReq",
+      "required": [
+        "number"
+      ]
+    },
+    "GetRecommendByUserIdResp": {
+      "type": "object",
+      "properties": {
+        "itemIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "GetRecommendByUserIdResp",
+      "required": [
+        "itemIds"
+      ]
+    },
+    "InsertFeedBackReq": {
+      "type": "object",
+      "properties": {
+        "feedBacks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FeedBack"
+          }
+        }
+      },
+      "title": "InsertFeedBackReq",
+      "required": [
+        "feedBacks"
+      ]
+    },
+    "InsertFeedBackResp": {
+      "type": "object",
+      "title": "InsertFeedBackResp"
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "apiKey": []
+    }
+  ]
+}

@@ -60,13 +60,16 @@ FLUSH PRIVILEGES;
 | 类型名              | 端口号  | Prometheus监听端口号 | 
 |------------------|------|-----------------|
 | usercenter-api   | 2001 | 3002            |
-| mqueue-job       | 2002 | 3004            |
 | usercenter-rpc   | 4001 | 3003            |
+| mqueue-job       | 2002 | 3004            |
 | mqueue-scheduler | 4002 | 3005            |
 | filecenter-api   | 2003 | 3006            |
 | filecenter-rpc   | 4003 | 3007            |
 | es-api           | 2004 | 3008            |             
 | es-rpc           | 4004 | 3009            |
+| recommend-api    | 2005 | 3010            | 
+| recommend-rpc    | 4005 | 3011            | 
+
   
 
 #### tips: API的端口从20开始, RPC的端口从40开始, Prometheus端口从30开始
@@ -215,5 +218,7 @@ docker-compose --version
         - [x] 按相关性排序
         - [ ] 按点赞量排序
         - [ ] 按收藏量排序
+- [x] recommend
+    - [x] 完成初步的推荐功能
         
     

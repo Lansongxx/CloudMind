@@ -1,0 +1,19 @@
+syntax = "v1"
+import "recommend/recommend.api"
+
+@server(
+	jwt: JwtAuth
+	prefix: recommend/v1
+	group: recommend
+)
+service recommend {
+	@doc "获取用户相关的推荐"
+	@handler GetRecommendByUserId
+	get /GetRecommendByUserId/:number (GetRecommendByUserIdReq) returns (GetRecommendByUserIdResp)
+	@doc "获取用户相关的推荐"
+	@handler GetRecommendByItemId
+	get /GetRecommendByItemId/:itemId/:number (GetRecommendByItemIdReq) returns (GetRecommendByItemIdResp)
+	@doc "插入用户评分"
+	@handler InsertFeedBack
+	post /InsertFeedBack (InsertFeedBackReq) returns (InsertFeedBackResp)
+}

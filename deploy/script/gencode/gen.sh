@@ -32,3 +32,6 @@
 # ./kafka-console-consumer.sh  --bootstrap-server kafka:9092  --topic looklook-log   --from-beginning
 # 命令生产
 # ./kafka-console-producer.sh --bootstrap-server kafka:9092 --topic second
+
+# 生成swagger
+# goctl api plugin -plugin goctl-swagger="swagger -filename user.json" -api user.api -dir .
