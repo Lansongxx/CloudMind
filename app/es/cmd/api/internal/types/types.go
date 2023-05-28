@@ -31,7 +31,6 @@ type SearchForPostsResp struct {
 }
 
 type SearchForFilesByUserIdReq struct {
-	UserId    int64  `form:"userId"`
 	TypeMount string `form:"typeMount"`
 }
 
@@ -41,7 +40,6 @@ type SearchForFilesByUserIdResp struct {
 }
 
 type SearchForPostsByUserIdReq struct {
-	UserId    int64  `form:"userId"`
 	TypeMount string `form:"typeMount"`
 }
 

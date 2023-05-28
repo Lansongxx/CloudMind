@@ -13,6 +13,7 @@ import (
 )
 
 type (
+	File                       = pb.File
 	GenerateTokenReq           = pb.GenerateTokenReq
 	GenerateTokenResp          = pb.GenerateTokenResp
 	GetUserAuthByAuthKeyReq    = pb.GetUserAuthByAuthKeyReq
@@ -25,6 +26,11 @@ type (
 	LoginResp                  = pb.LoginResp
 	LogoutReq                  = pb.LogoutReq
 	LogoutResp                 = pb.LogoutResp
+	Post                       = pb.Post
+	QueryFilesHistoryReq       = pb.QueryFilesHistoryReq
+	QueryFilesHistoryResp      = pb.QueryFilesHistoryResp
+	QueryPostsHistoryReq       = pb.QueryPostsHistoryReq
+	QueryPostsHistoryResp      = pb.QueryPostsHistoryResp
 	RealNameAuthenticationReq  = pb.RealNameAuthenticationReq
 	RealNameAuthenticationResp = pb.RealNameAuthenticationResp
 	RegisterReq                = pb.RegisterReq

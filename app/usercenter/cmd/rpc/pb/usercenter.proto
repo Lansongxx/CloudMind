@@ -26,6 +26,18 @@ message UserAuth {
   string authKey = 4;
 }
 
+message Post {
+  string  Title = 1;
+  string  Avatar = 2;
+  int64 Id = 3;
+}
+
+message File {
+  string  Title = 1;
+  string  Avatar = 2;
+  int64 Id = 3;
+}
+
 
 //req 、resp
 message RegisterReq {
@@ -129,6 +141,28 @@ message LogoutReq {
 message LogoutResp {
   string Error = 1;
 }
+
+message QueryFilesHistoryReq{
+  string Type = 1; // 浏览， 点赞， 收藏
+  string TimeType = 2;
+  int64 UserId = 3;
+}
+
+message QueryFilesHistoryResp{
+  repeated  File Files = 1;
+}
+
+message QueryPostsHistoryReq{
+  string Type = 1; // 浏览， 下载， 点赞， 收藏
+  string TimeType = 2;
+  int64 UserId = 3;
+
+}
+
+message QueryPostsHistoryResp{
+  repeated  Post Posts = 1;
+}
+
 
 //service
 service usercenter {

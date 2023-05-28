@@ -2,6 +2,7 @@ package search
 
 import (
 	"CloudMind/app/es/cmd/rpc/pb"
+	"CloudMind/common/ctxdata"
 	"CloudMind/common/errorx"
 	"context"
 
@@ -26,8 +27,10 @@ func NewSearchForFilesByUserIdLogic(ctx context.Context, svcCtx *svc.ServiceCont
 }
 
 func (l *SearchForFilesByUserIdLogic) SearchForFilesByUserId(req *types.SearchForFilesByUserIdReq) (*types.SearchForFilesByUserIdResp, error) {
+	UserId := ctxdata.GetUidFromCtx(l.ctx)
+
 	Resp, err := l.svcCtx.EsRpc.SearchForFilesByUserId(l.ctx, &pb.SearchForFilesByUserIdReq{
-		UserId:    req.UserId,
+		UserId:    UserId,
 		TypeMount: req.TypeMount,
 	})
 
