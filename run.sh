@@ -4,3 +4,4 @@ echo "wait 10s ..."
 sleep 10
 docker-compose up -d
 
+

@@ -19,8 +19,8 @@ services:
       - LOG_LEVEL=debug
     networks:
       - CloudMind_net
-
-    #prometheus监控 — Prometheus for monitoring
+#
+#    #prometheus监控 — Prometheus for monitoring
   prometheus:
     image: prom/prometheus:v2.28.1
     container_name: prometheus
@@ -39,8 +39,8 @@ services:
       - "9090:9090"
     networks:
       - CloudMind_net
-
-    #查看prometheus监控数据 - Grafana to view Prometheus monitoring data
+#
+#    #查看prometheus监控数据 - Grafana to view Prometheus monitoring data
   grafana:
     image: grafana/grafana:8.0.6
     container_name: grafana
@@ -56,8 +56,8 @@ services:
       - "3001:3000"
     networks:
       - CloudMind_net
-
-    #  #搜集kafka业务日志、存储prometheus监控数据 - Kafka for collecting business logs and storing Prometheus monitoring data
+#
+#    #  #搜集kafka业务日志、存储prometheus监控数据 - Kafka for collecting business logs and storing Prometheus monitoring data
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
     container_name: elasticsearch
@@ -75,8 +75,8 @@ services:
       - "9300:9300"
     networks:
       - CloudMind_net
-
-    #查看elasticsearch数据 - Kibana to view Elasticsearch data
+#
+#    #查看elasticsearch数据 - Kibana to view Elasticsearch data
   kibana:
     image: docker.elastic.co/kibana/kibana:7.13.4
     container_name: kibana
@@ -90,8 +90,8 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
-
-    #消费kafka中filebeat收集的数据输出到es - The data output collected by FileBeat in Kafka is output to ES
+#
+#    #消费kafka中filebeat收集的数据输出到es - The data output collected by FileBeat in Kafka is output to ES
   go-stash:
     image: kevinwan/go-stash:1.0 # if you "macOs intel" or "linux amd"
     #    image: kevinwan/go-stash:1.0-arm64 #  if you "macOs m1" or "linux arm"
@@ -108,8 +108,8 @@ services:
     depends_on:
       - elasticsearch
       - kafka
-
-    #收集业务数据 - Collect business data
+#
+#    #收集业务数据 - Collect business data
   filebeat:
     image: elastic/filebeat:7.13.4
     container_name: filebeat
@@ -129,9 +129,9 @@ services:
       - CloudMind_net
     depends_on:
       - kafka
-
-
-    #zookeeper是kafka的依赖 - Zookeeper is the dependencies of Kafka
+#
+#
+#    #zookeeper是kafka的依赖 - Zookeeper is the dependencies of Kafka
   zookeeper:
     image: wurstmeister/zookeeper
     container_name: zookeeper
@@ -143,8 +143,8 @@ services:
       - "2181:2181"
     networks:
       - CloudMind_net
-
-    #消息队列 - Message queue
+#
+#    #消息队列 - Message queue
   kafka:
     image: wurstmeister/kafka
     container_name: kafka
@@ -162,8 +162,8 @@ services:
       - CloudMind_net
     depends_on:
       - zookeeper
-
-    #asynqmon asynq延迟队列、定时队列的webui - Asynqmon asynq delay queue, timing queue's webUI
+#
+#    #asynqmon asynq延迟队列、定时队列的webui - Asynqmon asynq delay queue, timing queue's webUI
   asynqmon:
     image: hibiken/asynqmon:latest
     container_name: asynqmon

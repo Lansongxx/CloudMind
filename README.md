@@ -186,6 +186,32 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
 
+### 9. 安装 clash
+https://github.com/Fndroid/clash_for_windows_pkg
+
+下载这个 Clash.for.Windows-0.20.24-x64-linux.tar.gz 
+
+解压后将文件名修改为clash
+
+在当前文件夹(clash)
+```shell
+wget https://cdn.jsdelivr.net/gh/Dreamacro/clash@master/docs/logo.png
+vim clash.desktop
+[Desktop Entry]
+ Name=clash
+ Comment=Clash
+ Exec=~/clash/cfw
+ Icon=~/clash/logo.png
+ Type=Application
+ Categories=Development;
+ StartupNotify=true
+ NoDisplay=false
+ 
+ sudo mv clash.desktop /usr/share/applications/
+```
+
+来自于 https://hiif.ong/clash/
+
 
 ## 四.系统功能
 

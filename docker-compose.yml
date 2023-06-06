@@ -16,8 +16,8 @@ services:
       - ./data/nginx/log:/var/log/nginx
     networks:
       - CloudMind_net
-    depends_on:
-      - CloudMind
+#    depends_on:
+#      - CloudMind
  CloudMind:
      image: lyumikael/gomodd:v1.20.3 # if you "macOs intel" or "linux amd"
      container_name: CloudMind
@@ -67,7 +67,7 @@ services:
       - master
     networks:
       - CloudMind_net
-#
+##
  master:
    image: zhenghaoz/gorse-master
    restart: unless-stopped
